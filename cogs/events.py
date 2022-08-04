@@ -53,7 +53,7 @@ class Events(commands.Cog):
 				description=f'{message.author.mention}, {an} {ship}%!',
 				colour=0x00ffaa
 				)
-      await message.channel.send(embed=embed)
+      			await message.channel.send(embed=embed)
 				
 
 		if msg.startswith('бот шанс'):
