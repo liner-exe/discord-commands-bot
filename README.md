@@ -1,9 +1,9 @@
 # discord-bot-ru
 
 <center>
-    <a href="https://discord.gg/DWdBStuTZe">
+    <!-- <a href="https://discord.gg/DWdBStuTZe">
         <img src="https://discordapp.com/api/guilds/977503884257947689/widget.png?style=shield" alt="Discord Server">
-    </a>
+    </a> -->
     <a href="https://github.com/Rapptz/discord.py/">
         <img src="https://img.shields.io/badge/discord-py-blue.svg" alt="discord.py">
     </a>
