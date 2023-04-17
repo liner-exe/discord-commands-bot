@@ -1,14 +1,15 @@
-import discord
-from discord.ext import commands, tasks
+import nextcord
+from nextcord.ext import commands, tasks
 import os
 from itertools import cycle
 
 # интенты
 
-intents = discord.Intents.all()
+intents = nextcord.Intents.default()
 intents.members = True
 intents.presences = True
-discord.member = True
+intents.message_content = True
+nextcord.member = True
 
 # всякое важное
 
@@ -16,8 +17,9 @@ prefix = '.'
 client = commands.Bot(command_prefix=prefix, intents=intents)
 client.remove_command('help') 
 
-token = os.getenv("token")
-owner_id = # добавь сам
+# token = os.getenv("token")
+token = "" # введи сюда свой токен
+owner_id = 0 # напиши свой айди сам
 
 # статус
 
@@ -25,10 +27,10 @@ status = cycle(['.help', 'use .help for help', 'created by liner#9544'])
 
 @tasks.loop(seconds=10)
 async def change_status():
-	await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=next(status)))
-		# await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name='.help'))
-		# await client.change_presence(activity=discord.Streaming(name='.help', url=''))
-		# await client.change_presence(status=discord.Status.Online, activity=discord.game('.help'))
+	await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching, name=next(status)))
+		# await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.listening, name='.help'))
+		# await client.change_presence(activity=nextcord.Streaming(name='.help', url=''))
+		# await client.change_presence(status=nextcord.Status.Online, activity=nextcord.game('.help'))
 
 # ивенты
 

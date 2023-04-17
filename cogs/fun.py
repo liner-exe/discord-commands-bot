@@ -1,5 +1,5 @@
-import discord
-from discord.ext import commands
+import nextcord
+from nextcord.ext import commands
 import random
 from random import choice
 
@@ -10,7 +10,7 @@ class Fun(commands.Cog):
 	@commands.command()
 	async def dice(self, ctx):
 		x_dice = random.randint(2, 12)
-		emb=discord.Embed(
+		emb=nextcord.Embed(
 			description=f"Кубики подброшены... И выпало число {x_dice} 🎲",
 			colour=0xfc0362
 			)
@@ -25,17 +25,17 @@ class Fun(commands.Cog):
 		c = random.choice(emojis)
 
 		if (a == b == c):
-			slotmachine = discord.Embed(title="Slot machine", description=f"🎰 ({a}|{b}|{c})", colour=0x33ff00)
+			slotmachine = nextcord.Embed(title="Slot machine", description=f"🎰 ({a}|{b}|{c})", colour=0x33ff00)
 			slotmachine.add_field(name="Вы победили!", value="Все 3 совпали.")
 			await ctx.send(embed=slotmachine)
 
 		if (a == b) or (a == c) or (b == c):
-			slotmachine = discord.Embed(title="Slot machine", description=f"🎰 ({a}|{b}|{c})", colour=0xffff00)
+			slotmachine = nextcord.Embed(title="Slot machine", description=f"🎰 ({a}|{b}|{c})", colour=0xffff00)
 			slotmachine.add_field(name="Вы победили!", value="2 символа совпали.")
 			await ctx.send(embed=slotmachine)
 
 		else:
-			slotmachine = discord.Embed(title="Slot machine", description=f"🎰 ({a}|{b}|{c})", colour=0xff0000)
+			slotmachine = nextcord.Embed(title="Slot machine", description=f"🎰 ({a}|{b}|{c})", colour=0xff0000)
 			slotmachine.add_field(name="Вы проиграли..", value="Ничего не совпало.")
 			await ctx.send(embed=slotmachine)
 
@@ -50,7 +50,7 @@ class Fun(commands.Cog):
 
 		lenght = 16
 		ps = ''.join(random.sample(symb, lenght))
-		embed = discord.Embed(
+		embed = nextcord.Embed(
 			title='Password generator',
 			description=f'Ваш рандомный пароль: ``{ps}``',
 			timestamp=ctx.message.created_at,
@@ -64,13 +64,13 @@ class Fun(commands.Cog):
 		arr_monetka = ['Орёл', 'Решка']
 		x_moneta = random.choice(arr_monetka)
 		if x_moneta == 'Орёл':
-			emb1=discord.Embed(
+			emb1=nextcord.Embed(
 				description=f"Монетка подкинута и выпал **{x_moneta}**.",
 				colour=0xdf03fc
 				)
 			await ctx.send(embed=emb1)
 		else:
-			emb2=discord.Embed(
+			emb2=nextcord.Embed(
 				description=f"Монетка подкинута и выпала **{x_moneta}**.",
 				colour=0xdf03fc
 				)
@@ -78,7 +78,7 @@ class Fun(commands.Cog):
 
 	@commands.command()
 	async def say(self, ctx, word):
-		embed=discord.Embed(
+		embed=nextcord.Embed(
 			description=f'{word}',
 			)
 		await ctx.send(embed=embed)
