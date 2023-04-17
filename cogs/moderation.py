@@ -1,8 +1,8 @@
-import discord
+import nextcord
 import asyncio
 from typing import Optional
-from discord.ext import commands
-from discord import Member
+from nextcord.ext import commands
+from nextcord import Member
 
 client = commands.Bot(command_prefix = '.')
 
@@ -35,7 +35,7 @@ class Moderation(commands.Cog):
 	async def бан(self, ctx, member: Member, *, reason : Optional[str] = "Причина не указана."):
 		await ctx.message.delete()
 		await ctx.channel.trigger_typing()
-		embed = discord.Embed(description=f"🚫 Пользователь **{member.name}** забанен!", colour=0xff0000)
+		embed = nextcord.Embed(description=f"🚫 Пользователь **{member.name}** забанен!", colour=0xff0000)
 		# embed.set_author(name=member, icon_url=member.avatar_url)
 		# embed.add_field(name='Бан!', value=f'Пользователь {member.mention} забанен по причине:\n{reason}')
 		embed.add_field(name="Пользователь", value=f"{member.mention}")
@@ -60,7 +60,7 @@ class Moderation(commands.Cog):
 			if(user.name, user.discriminator) == (member_name, member_discriminator):
 				await ctx.channel.trigger_typing()
 				await ctx.guild.unban(user)
-				embed = discord.Embed(description=f"✅ Пользователь **{user.name}** разбанен!", colour=0x33ff00)
+				embed = nextcord.Embed(description=f"✅ Пользователь **{user.name}** разбанен!", colour=0x33ff00)
 				embed.add_field(name="Пользователь", value=f"{user.mention}")
 				embed.add_field(name="Причина", value=f"{reason}")
 				embed.set_footer(text=f'Администратор - {ctx.author.name}#{ctx.author.discriminator}', icon_url=ctx.author.avatar_url)

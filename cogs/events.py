@@ -1,15 +1,15 @@
-import discord
-from discord import utils
-from discord.ext import commands
+import nextcord
+from nextcord import utils
+from nextcord.ext import commands
 import random
 from random import choice
 
-intents = discord.Intents.all()
+intents = nextcord.Intents.all()
 intents.members = True
 intents.presences = True
-discord.member = True
+nextcord.member = True
 
-client = discord.Client(intents=intents)
+client = nextcord.Client(intents=intents)
 
 class Events(commands.Cog):
 	def __init__ (self, client):
@@ -30,7 +30,7 @@ class Events(commands.Cog):
 
 		if msg.startswith('бот инфа'):
 			infa_perc = random.randint(0, 101)
-			emb1 = discord.Embed(
+			emb1 = nextcord.Embed(
 				description=f'{message.author.mention}, вероятность составляет {infa_perc}%',
 				colour=0x00ffaa
 				)
@@ -39,7 +39,7 @@ class Events(commands.Cog):
 		if msg.startswith('бот кто'):
 			answers = ["оказывается это", "я думаю, это", "я предполагаю, это", "по моему мнению, это"]
 			result = random.choice(answers)
-			emb1 = discord.Embed(
+			emb1 = nextcord.Embed(
 				description=f'{message.author.mention}, {result} {choice(message.guild.members).mention}!',
 				colour=0x00ffaa
 				)
@@ -49,11 +49,11 @@ class Events(commands.Cog):
 			answers = ["ваша совместимость", "вы подходите друг другу на"]
 			an = random.choice(answers)
 			ship = random.randint(0, 100)
-			embed = discord.Embed(
+			embed = nextcord.Embed(
 				description=f'{message.author.mention}, {an} {ship}%!',
 				colour=0x00ffaa
 				)
-      			await message.channel.send(embed=embed)
+			await message.channel.send(embed=embed)
 				
 
 		if msg.startswith('бот шанс'):
@@ -64,7 +64,7 @@ class Events(commands.Cog):
 			"даже не думай", "мой ответ - нет", "по моим данным - нет", "перспективы не очень хорошие",
 			"весьма сомнительно"]
 			ball = random.choice(arr)
-			emb1 = discord.Embed(
+			emb1 = nextcord.Embed(
 				description=f'{message.author.mention}, 🎱 {ball}!',
 				colour=0xffffff
 				)
@@ -74,7 +74,7 @@ class Events(commands.Cog):
 	async def on_member_join(self, member):
 		guild = client.get_guild(guild_id)
 		channel = guild.get_channel(channel_id)
-		role = discord.utils.get(member.guild.roles, id=role_id)
+		role = nextcord.utils.get(member.guild.roles, id=role_id)
 		await member.add_roles(role)
 		await channel.send(f'Добро пожаловать на сервер {guild.name}, {member.mention}!')
 		await member.send(f'Добро пожаловать на сервер {guild.name}, {member.mention}! Oзнакомься с правилами.')
