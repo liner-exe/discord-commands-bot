@@ -4,6 +4,7 @@
     <!-- <a href="https://discord.gg/DWdBStuTZe">
         <img src="https://discordapp.com/api/guilds/977503884257947689/widget.png?style=shield" alt="Discord Server">
     </a> -->
+    *здесь исправить*
     <a href="https://www.python.org/downloads/">
         <img src="https://img.shields.io/badge/PYTHON-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue%203.11-blue"  alt="Python Versions" >
     </a>
@@ -12,4 +13,4 @@
     </a>
 </center>
 
-Минамально совместимая версия Python - 3.8
+Минимально совместимая версия Python - 3.8
