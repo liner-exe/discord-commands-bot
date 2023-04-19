@@ -1,10 +1,6 @@
 # discord-bot-ru
 
 <center>
-    <!-- <a href="https://discord.gg/DWdBStuTZe">
-        <img src="https://discordapp.com/api/guilds/977503884257947689/widget.png?style=shield" alt="Discord Server">
-    </a> -->
-    
     <a href="https://www.python.org/downloads/">
         <img src="https://img.shields.io/badge/PYTHON-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue?style=for-the-badge&logo=python"  alt="Python Versions" >
     </a>
@@ -12,5 +8,3 @@
         <img src="https://img.shields.io/badge/NEXTCORD-2.4.2-blue?style=for-the-badge" alt="nextcord">
     </a>
 </center>
-
-Минимально совместимая версия Python - 3.8
