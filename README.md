@@ -1,5 +1,35 @@
 # discord-bot-ru
 
+## Ключевые преимущества
+* Современный API Python, использующий `async` и `await`
+* Правильное обращение с  ограничением скорости
+* Оптимизирован по скорости и памяти
+## Установка
+**Python 3.8 и новее требуется.**<br>
+### Для начала нужно установить модуль nextcord
+
+
+```sh
+# Linux/macOS
+python3 -m pip install -U nextcord
+
+# Windows
+py -3 -m pip install -U nextcord
+```
+
+### Установите код бота
+Скачайте zip архив версии с пометкой `latest` <br>
+[Установите последний релиз](https://github.com/r-liner/discord-bot-ru/releases)
+
+### Далее необходимо настроить под себя
+В файле `setup.py` поменяйте добавьте токен в `token` и в `owner_id` свой id дискорд.
+
+## Запуск
+Бота можно запустить через файл `start.bat` <br>
+При запуске вы должны увидеть:
+* Имя бота
+* На скольки серверах он работает
+<br>
 <center>
     <a href="https://www.python.org/downloads/">
         <img src="https://img.shields.io/badge/PYTHON-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue?style=for-the-badge&logo=python"  alt="Python Versions" >
