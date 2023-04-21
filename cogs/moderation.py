@@ -1,12 +1,7 @@
 import nextcord
-import asyncio
 from typing import Optional
 from nextcord.ext import commands
 from nextcord import Member
-
-#intents = nextcord.Intents.default()
-#intents.message_content = True
-#client = commands.Bot(command_prefix = '.')
 
 class Moderation(commands.Cog):
 	def __init__(self, client):
@@ -38,8 +33,6 @@ class Moderation(commands.Cog):
 		await ctx.message.delete()
 		await ctx.channel.trigger_typing()
 		embed = nextcord.Embed(description=f"🚫 Пользователь **{member.name}** забанен!", colour=0xff0000)
-		# embed.set_author(name=member, icon_url=member.avatar_url)
-		# embed.add_field(name='Бан!', value=f'Пользователь {member.mention} забанен по причине:\n{reason}')
 		embed.add_field(name="Пользователь", value=f"{member.mention}")
 		embed.add_field(name="Причина", value=f"{reason}")
 		embed.set_footer(text=f'Администратор - {ctx.author.name}#{ctx.author.discriminator}', icon_url=ctx.author.avatar_url)
