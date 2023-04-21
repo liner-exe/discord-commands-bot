@@ -2,12 +2,10 @@ import nextcord
 from nextcord import utils, User
 from nextcord.ext import commands
 import random
-from random import choice
 
 intents = nextcord.Intents.all()
 intents.members = True
 intents.presences = True
-#nextcord.member = True
 intents.message_content = True
 
 client = nextcord.Client(intents=intents)

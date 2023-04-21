@@ -1,7 +1,6 @@
 import nextcord
 from nextcord.ext import commands
 import random
-from random import choice
 
 class Fun(commands.Cog):
 	def __init__(self, client):
