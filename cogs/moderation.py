@@ -4,7 +4,9 @@ from typing import Optional
 from nextcord.ext import commands
 from nextcord import Member
 
-client = commands.Bot(command_prefix = '.')
+#intents = nextcord.Intents.default()
+#intents.message_content = True
+#client = commands.Bot(command_prefix = '.')
 
 class Moderation(commands.Cog):
 	def __init__(self, client):
