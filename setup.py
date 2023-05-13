@@ -14,12 +14,13 @@ nextcord.member = True
 # всякое важное
 
 prefix = '.'
-client = commands.Bot(command_prefix=prefix, intents=intents)
+owner_id = 923915325668487190
+client = commands.Bot(command_prefix=prefix, owner_id=owner_id, intents=intents)
 client.remove_command('help') 
 
 # token = os.getenv("token")
-token = "" # введи сюда свой токен
-owner_id = 0 # напиши свой айди сам
+token = "OTk3NDA5NDAxNzAwODgwNDM0.Gdd7mO.N-jIExWEHZ0rYsj1g6319jbTxwGBhiqTMxGGC4" # введи сюда свой токен
+# owner_id = 923915325668487190 # напиши свой айди сам
 
 # статус
 
@@ -43,32 +44,26 @@ async def on_ready():
 # загрузка когов
 
 @client.command()
+@commands.is_owner()
 async def load(ctx, extension):
-	if ctx.author.id == owner_id:
-		client.load_extension(f"cogs.{extension}")
-		print("Cogs is loaded.")
-		await ctx.send("Cog is loaded.")
-	else:
-		await ctx.send("Недостаточно прав.")
+	client.load_extension(f"cogs.{extension}")
+	print("Cogs is loaded.")
+	await ctx.send("Cog is loaded.")
 
 @client.command()
+@commands.is_owner()
 async def unload(ctx, extension):
-	if ctx.author.id == owner_id:
-		client.unload_extension(f"cogs.{extension}")
-		print("Cogs is unloaded.")
-		await ctx.send("Cog is unloaded.")
-	else:
-		await ctx.send("Недостаточно прав.")
+	client.unload_extension(f"cogs.{extension}")
+	print("Cog is unloaded.")
+	await ctx.send("Cog is unloaded.")
 
 @client.command()
+@commands.is_owner()
 async def reload(ctx, extension):
-	if ctx.author.id == owner_id:
-		client.unload_extension(f"cogs.{extension}")
-		client.load_extension(f"cogs.{extension}")
-		print("Cogs is re-loaded.")
-		await ctx.send("Cog is reloaded.")
-	else:
-		await ctx.send("Недостаточно прав.")
+	client.unload_extension(f"cogs.{extension}")
+	client.load_extension(f"cogs.{extension}")
+	print("Cog is re-loaded.")
+	await ctx.send("Cog is reloaded.")
 
 for filename in os.listdir("./cogs"):
 	if filename.endswith(".py"):
