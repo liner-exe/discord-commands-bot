@@ -14,13 +14,11 @@ nextcord.member = True
 # всякое важное
 
 prefix = '.'
-owner_id = 923915325668487190
+owner_id = 0 # напиши свой айди сам
 client = commands.Bot(command_prefix=prefix, owner_id=owner_id, intents=intents)
 client.remove_command('help') 
 
-# token = os.getenv("token")
-token = "OTk3NDA5NDAxNzAwODgwNDM0.Gdd7mO.N-jIExWEHZ0rYsj1g6319jbTxwGBhiqTMxGGC4" # введи сюда свой токен
-# owner_id = 923915325668487190 # напиши свой айди сам
+token = "" # введи сюда свой токен
 
 # статус
 
