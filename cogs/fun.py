@@ -8,16 +8,22 @@ class Fun(commands.Cog):
 
 	@commands.command()
 	async def dice(self, ctx):
-		x_dice = random.randint(2, 12)
-		emb=nextcord.Embed(
-			description=f"Кубики подброшены... И выпало число {x_dice} 🎲",
+		player_dice, bot_dice = [random.randint(2, 12) for i in range (2)]
+
+		emb = nextcord.Embed(
+			description="\n".join([f"**Ваше число**: {player_dice} 🎲",
+								   f"Число **{self.client.user.display_name}**: {bot_dice} 🎲"]),
 			colour=0xfc0362
-			)
+		)
+		if player_dice > bot_dice:
+			emb.add_field(name = "Результат", value = "Вы победили!")
+		elif bot_dice > player_dice:
+			emb.add_field(name="Результат", value="Вы проиграли..")
 		await ctx.send(embed=emb)
 
 	@commands.command()
 	async def roll(self, ctx):
-		emojis = ["🍎", "🍊", "🍐", "🍋", "🍉", "🍇", "🍓", "🍒", "🔔", "💎", "🅱️", "7️⃣"]
+		emojis = "🍎🍊🍐🍋🍉🍇🍓🍒🔔💎🅱️7️⃣"
 
 		a = random.choice(emojis)
 		b = random.choice(emojis)
@@ -39,7 +45,7 @@ class Fun(commands.Cog):
 			await ctx.send(embed=slotmachine)
 
 	@commands.command()
-	async def password(self, ctx):
+	async def password(self, ctx, *, lenght : int = None):
 		lower = 'abcdefghijklmnopqrstuvwxyz'
 		upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 		digits = '0123456789'
@@ -47,7 +53,13 @@ class Fun(commands.Cog):
 
 		symb = lower + upper + digits + punct
 
-		lenght = 16
+		if lenght >= 8 and lenght <= 74:
+			pass
+		elif lenght > 74:
+			return await ctx.send("Пароль может быть не более 74 символов.")
+		else:
+			return await ctx.send("Пароль должен быть не менее 8 символов.")
+		
 		ps = ''.join(random.sample(symb, lenght))
 		embed = nextcord.Embed(
 			title='Password generator',
