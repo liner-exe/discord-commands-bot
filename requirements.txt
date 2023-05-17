@@ -1,3 +1,4 @@
 asyncio==3.4.3
 nextcord==2.4.2
 typing_extensions==4.5.0
+psutil==5.9.5
