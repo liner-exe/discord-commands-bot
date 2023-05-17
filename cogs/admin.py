@@ -1,3 +1,4 @@
+import discord
 from nextcord.ext import commands
 
 class Admin(commands.Cog):
@@ -10,12 +11,29 @@ class Admin(commands.Cog):
         try:
             await ctx.guild.me.edit(nick=name)
             if name:
-                return await ctx.send(f"Изменено на {name}")
+                return await ctx.send(f"Отображаемое имя бота изменено на **{name}**")
             elif name == None:
                 return await ctx.send(f"Имя очищено")
         except Exception as error:
             await ctx.send(error)
 
+    @commands.command()
+    @commands.is_owner()
+    async def change_username(self, ctx, *, name: str):
+        try:
+            await self.client.user.edit(username=name)
+            await ctx.send(f"Имя бота изменено на **{name}**")
+        except Exception as error:
+            await ctx.send(error)
+
+    @commands.command(aliases=["dm"])
+    @commands.is_owner()
+    async def direct_message(self, ctx, user: discord.User, *, message: str):
+        try:
+            await user.send(message)
+            await ctx.send("Сообщение отправлено")
+        except discord.Forbidden:
+            await ctx.send("У пользователя заблокированы ЛС. Или этот пользователь - бот.")
     @commands.command(pass_context=True)
     @commands.is_owner()
     async def shutdown(self, ctx):
