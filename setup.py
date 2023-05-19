@@ -14,11 +14,12 @@ nextcord.member = True
 # всякое важное
 
 prefix = '.'
-owner_id = 0 # напиши свой айди сам
+owner_id = 923915325668487190 # замени на свой айди учётной записи дискорд здесь
 client = commands.Bot(command_prefix=prefix, owner_id=owner_id, intents=intents)
 client.remove_command('help') 
 
-token = "" # введи сюда свой токен
+# token = os.getenv("token") для replit
+token = open ("token.txt", "r").readline()
 
 # статус
 
