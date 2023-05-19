@@ -59,7 +59,7 @@ class Fun(commands.Cog):
 			return await ctx.send("Пароль может быть не более 74 символов.")
 		else:
 			return await ctx.send("Пароль должен быть не менее 8 символов.")
-		
+
 		ps = ''.join(random.sample(symb, lenght))
 		embed = nextcord.Embed(
 			title='Password generator',
@@ -88,12 +88,28 @@ class Fun(commands.Cog):
 			await ctx.send(embed=emb2)
 
 	@commands.command()
-	async def say(self, ctx, word):
+	async def say(self, ctx, *, word):
 		embed=nextcord.Embed(
 			description=f'{word}',
 			)
 		await ctx.send(embed=embed)
 		await ctx.message.delete()
+
+	@commands.command()
+	async def eval(self, ctx, *, content):
+		try:
+			embed = nextcord.Embed(description=content)
+			embed.add_field(name="Результат", value=eval(content))
+			await ctx.send(embed=embed)
+
+		except SyntaxError:
+			await ctx.send("Недопустимое выражение")
+
+		except ZeroDivisionError:
+			await ctx.send("Нельзя делить на ноль!")
+
+		except Exception as error:
+			await ctx.send(error)
 
 def setup(client):
 	client.add_cog(Fun(client))
