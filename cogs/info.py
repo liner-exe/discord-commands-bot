@@ -42,7 +42,7 @@ class Info(commands.Cog):
 
         with open('version.txt', 'r') as file:
             version = file.read()
-        embed = discord.Embed()
+        embed = nextcord.Embed()
 
         embed.add_field(name="Python Version", value=python_version(), inline=True)
         embed.add_field(name="Nextcord version", value=nextcord_version, inline=True)
