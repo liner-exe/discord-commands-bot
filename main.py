@@ -1,38 +1,43 @@
 import nextcord
+import nextcord.errors
 from nextcord.ext import commands, tasks
 import os
 from itertools import cycle
+import sys
+import configparser
 
-# интенты
 
-intents = nextcord.Intents.default()
-intents.members = True
-intents.presences = True
-intents.message_content = True
-nextcord.member = True
+intents = nextcord.Intents.all()
 
-# всякое важное
+config = configparser.ConfigParser()
+config.read("config.ini")
 
-prefix = '.'
-owner_id = 923915325668487190 # замени на свой айди учётной записи дискорд здесь
-client = commands.Bot(command_prefix=prefix, owner_id=owner_id, intents=intents)
-client.remove_command('help') 
+if sys.version_info < (3, 8):
+	exit("You need Python 3.8+ to run the bot.")
 
-# token = os.getenv("token") для replit
-token = open ("token.txt", "r").readline()
+try:
+	from nextcord import Intents, Client
+
+except ImportError:
+	exit("Nextcord isn`t installed or it`s old, unsupported version.")
+
+client = commands.Bot(command_prefix=config["bot"]["prefix"], owner_id=int(config["bot"]["owner_id"]), intents=intents)
+client.remove_command('help')
 
 # статус
 
-status = cycle(['.help', 'use .help for help', 'created by liner#9544'])
+status = cycle([f'{config["bot"]["prefix"]}help', f'use {config["bot"]["prefix"]}help for help', 'created by liner#9544'])
 
-@tasks.loop(seconds=10)
+
+@tasks.loop(seconds=15)
 async def change_status():
 	await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching, name=next(status)))
-		# await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.listening, name='.help'))
-		# await client.change_presence(activity=nextcord.Streaming(name='.help', url=''))
-		# await client.change_presence(status=nextcord.Status.Online, activity=nextcord.game('.help'))
+	# await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.listening, name='.help'))
+	# await client.change_presence(activity=nextcord.Streaming(name='.help', url=''))
+	# await client.change_presence(status=nextcord.Status.Online, activity=nextcord.game('.help'))
 
 # ивенты
+
 
 @client.event
 async def on_ready():
@@ -42,30 +47,58 @@ async def on_ready():
 
 # загрузка когов
 
+
 @client.command()
 @commands.is_owner()
 async def load(ctx, extension):
-	client.load_extension(f"cogs.{extension}")
-	print("Cogs is loaded.")
-	await ctx.send("Cog is loaded.")
+	try:
+		client.load_extension(f"cogs.{extension}")
+		print(f"Cog {extension} is loaded.")
+		await ctx.send(f"Cog **{str.upper(extension)}** is loaded.")
+
+	except Exception as error:
+		print(error)
+		await ctx.send("Неверное имя или невозможно загрузить")
+
 
 @client.command()
 @commands.is_owner()
 async def unload(ctx, extension):
-	client.unload_extension(f"cogs.{extension}")
-	print("Cog is unloaded.")
-	await ctx.send("Cog is unloaded.")
+	try:
+		client.unload_extension(f"cogs.{extension}")
+		print(f"Cog {str.upper(extension)} is unloaded.")
+		await ctx.send(f"Cog **{str.upper(extension)}** is unloaded.")
+
+	except Exception as error:
+		print(error)
+		await ctx.send("Неверное имя или невозможно загрузить")
+
 
 @client.command()
 @commands.is_owner()
 async def reload(ctx, extension):
-	client.unload_extension(f"cogs.{extension}")
-	client.load_extension(f"cogs.{extension}")
-	print("Cog is re-loaded.")
-	await ctx.send("Cog is reloaded.")
+	try:
+		client.unload_extension(f"cogs.{extension}")
+		client.load_extension(f"cogs.{extension}")
+		print(f"Cog {str.upper(extension)} is reloaded.")
+		await ctx.send(f"Cog **{str.upper(extension)}** is reloaded.")
+
+	except Exception as error:
+		print(error)
+		await ctx.send("Неверное имя или невозможно загрузить")
 
 for filename in os.listdir("./cogs"):
 	if filename.endswith(".py"):
 		client.load_extension(f"cogs.{filename[:-3]}")
 
-client.run(token)
+try:
+	client.run(config["bot"]["token"])
+
+except Exception as err:
+	print(err)
+
+except nextcord.PrivilegedIntentsRequired:
+	exit("Login failure! Privileged Intents not enabled.")
+
+except nextcord.errors.LoginFailure:
+	exit("Login failure! Token is required.")
