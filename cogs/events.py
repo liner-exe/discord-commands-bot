@@ -1,22 +1,39 @@
 import nextcord
 from nextcord import utils, User
 from nextcord.ext import commands
+from nextcord.ext.commands import errors
 import random
+from random import choice
+
 
 intents = nextcord.Intents.all()
-intents.members = True
-intents.presences = True
-intents.message_content = True
 
 client = nextcord.Client(intents=intents)
 
+
 class Events(commands.Cog):
-	def __init__ (self, client):
+	def __init__(self, client):
 		self.client = client
 
 	@commands.Cog.listener()
 	async def on_message(self, message):
-		if message.author.bot == True:
+		print("{0.guild} - {0.author}: {0.content}".format(message))
+
+	@commands.Cog.listener()
+	async def on_command_error(self, ctx, err: Exception):
+		if isinstance(err, errors.NotOwner):
+			pass
+
+		elif isinstance(err, errors.CommandNotFound):
+			await ctx.send("Команда не найдена!")
+			print(f"Команда не найдена - {ctx.message.author}: {ctx.message.content}")
+
+		elif isinstance(err, errors.MissingPermissions):
+			await ctx.send("Недостаточно прав.")
+
+	@commands.Cog.listener()
+	async def on_message(self, message):
+		if message.author.bot:
 			return
 		elif message.author == client.user:
 			return
@@ -30,7 +47,7 @@ class Events(commands.Cog):
 				await message.channel.send(f'До новых встреч, {message.author.mention}, обращайтесь снова!')
 
 			if msg.startswith('бот инфа'):
-				infa_perc = random.randint(0, 101)
+				infa_perc = random.randint(0, 100)
 				emb1 = nextcord.Embed(
 					description=f'{message.author.mention}, вероятность составляет {infa_perc}%',
 					colour=0x00ffaa
@@ -71,20 +88,21 @@ class Events(commands.Cog):
 					)
 				await message.channel.send(embed=emb1)
 
-	@commands.Cog.listener()
-	async def on_member_join(self, member):
-		guild = client.get_guild(guild_id)
-		channel = guild.get_channel(channel_id)
-		role = nextcord.utils.get(member.guild.roles, id=role_id)
-		await member.add_roles(role)
-		await channel.send(f'Добро пожаловать на сервер {guild.name}, {member.mention}!')
-		await member.send(f'Добро пожаловать на сервер {guild.name}, {member.mention}! Oзнакомься с правилами.')
 
-	@commands.Cog.listener()
-	async def on_member_remove(self, member):
-		guild = client.get_guild(guild_id)
-		channel = guild.get_channel(channel_id) 
-		await channel.send(f'Прощай, {member.mention}!')
+	# @commands.Cog.listener()
+	# async def on_member_join(self, member):
+	# 	guild = client.get_guild(guild_id)
+	# 	channel = guild.get_channel(channel_id)
+	# 	role = nextcord.utils.get(member.guild.roles, id=role_id)
+	# 	await member.add_roles(role)
+	# 	await channel.send(f'Добро пожаловать на сервер {guild.name}, {member.mention}!')
+	# 	await member.send(f'Добро пожаловать на сервер {guild.name}, {member.mention}! Oзнакомься с правилами.')
+	#
+	# @commands.Cog.listener()
+	# async def on_member_remove(self, member):
+	# 	guild = client.get_guild(guild_id)
+	# 	channel = guild.get_channel(channel_id)
+	# 	await channel.send(f'Прощай, {member.mention}!')
 
 def setup(client):
 	client.add_cog(Events(client))
