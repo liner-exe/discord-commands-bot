@@ -1,8 +1,9 @@
 # discord-bot-ru
 
 ## Установка
-**Python 3.8 и новее требуется.**<br>
-### Для начала нужно установить модуль nextcord
+### Установите Python 3.8 или новее
+[Установить](https://www.python.org/downloads/)
+### Установить модуль nextcord
 
 
 ```sh
@@ -19,10 +20,22 @@ py -3 -m pip install -U nextcord
 [Установить последний релиз](https://github.com/r-liner/discord-bot-ru/releases)
 
 ### Далее необходимо настроить под себя
-В файле `setup.py` добавьте токен в `token` и в `owner_id` id своей учётной записи.
+Переименуйте файл `config.ini.sample` в `config.ini`<br>
+Также можно удалить комментарии из того же файла<br><br>
+В файле `config.ini` необходимо добавить:
+- токен в `token`
+- id учётной записи Discord в `owner_id`
+- префикс бота в `prefix`
+- токен openweather в `openweather_token`<br>
+```diff
+@@ Примечание @@
++ Команда `weather` в коге `cogs/fun.py` работать без него не будет.
++ Код в целом без него будет работать как обычно.
+```
 
 ## Запуск
-Бота можно запустить через файл `start.bat` <br>
+Бота можно запустить через файл `start_win.bat` для Windows<br>
+Или через `start_linux.sh` для Linux<br>
 При запуске вы должны увидеть:
 * Имя бота
 * На скольки серверах он работает
