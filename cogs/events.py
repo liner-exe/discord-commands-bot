@@ -16,10 +16,6 @@ class Events(commands.Cog):
 		self.client = client
 
 	@commands.Cog.listener()
-	async def on_message(self, message):
-		print("{0.guild} - {0.author}: {0.content}".format(message))
-
-	@commands.Cog.listener()
 	async def on_command_error(self, ctx, err: Exception):
 		if isinstance(err, errors.NotOwner):
 			pass
@@ -33,6 +29,8 @@ class Events(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_message(self, message):
+		print("{0.guild} - {0.author}: {0.content}".format(message))
+
 		if message.author.bot:
 			return
 		elif message.author == client.user:
