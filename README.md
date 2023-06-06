@@ -1,4 +1,4 @@
-# discord-bot-ru
+# discord-bot-ru [![CodeFactor](https://www.codefactor.io/repository/github/r-liner/discord-bot-ru/badge)](https://www.codefactor.io/repository/github/r-liner/discord-bot-ru)
 
 ## Установка
 ### Установите Python 3.8 или новее
