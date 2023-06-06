@@ -6,7 +6,7 @@ class Admin(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(name="Смена никнейма", aliases=["cn"])
+    @commands.command(aliases=["cn"])
     @commands.is_owner()
     async def change_nickname(self, ctx, *, name: str = None):
         try:
@@ -21,7 +21,7 @@ class Admin(commands.Cog):
         except Exception as error:
             await ctx.send(error)
 
-    @commands.command(name="Смена юзернейма", aliases=["cu"])
+    @commands.command(aliases=["cu"])
     @commands.is_owner()
     async def change_username(self, ctx, *, name: str):
         try:
@@ -31,7 +31,7 @@ class Admin(commands.Cog):
         except Exception as error:
             await ctx.send(error)
 
-    @commands.command(name="Личное сообщение", aliases=["dm"])
+    @commands.command(aliases=["dm"])
     @commands.is_owner()
     async def direct_message(self, ctx, user: nextcord.User, *, message: str):
         try:
@@ -41,7 +41,7 @@ class Admin(commands.Cog):
         except nextcord.Forbidden:
             await ctx.send("У пользователя заблокированы ЛС. Или этот пользователь - бот.")
 
-    @commands.command(name="Выключение", aliases=["shut"], pass_context=True)
+    @commands.command(aliases=["shut"], pass_context=True)
     @commands.is_owner()
     async def shutdown(self, ctx):
         print("Bot is shutting down")
