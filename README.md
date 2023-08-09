@@ -1,4 +1,4 @@
-# nextcord-context-bot [![CodeFactor](https://www.codefactor.io/repository/github/r-liner/discord-bot-ru/badge)](https://www.codefactor.io/repository/github/r-liner/discord-bot-ru)
+# nextcord-context-bot [![CodeFactor](https://www.codefactor.io/repository/github/r-liner/nextcord-commands-bot/badge)](https://www.codefactor.io/repository/github/r-liner/nextcord-commands-bot)
 
 ## Choose your language / Выберите язык
 
