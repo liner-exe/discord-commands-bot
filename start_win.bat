@@ -1,5 +1,4 @@
 @echo off
-chcp 65001
 title discord-bot-ru
 
 cls
@@ -13,10 +12,10 @@ if errorlevel 1 (
 
 :install_python
 cls
-echo Вы должны установить Python версии 3.8 и выше!
-echo Установите Python и попробуйте снова.
+echo You must download Python ver 3.8 or newer!
+echo Install Python and try again.
 echo.
-echo Если Python установлен, то переустановите и добавьте его в PATH через "Add Python to PATH" при установке
+echo If Python has installed, reinstall and add it to PATH via "Add Python to PATH" during installation
 start https://www.python.org/downloads/
 echo.
 
@@ -24,7 +23,7 @@ pause
 exit
 
 :run
-py setup.py
+py main.py
 
 pause
 exit
