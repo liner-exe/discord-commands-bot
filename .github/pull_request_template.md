@@ -1,10 +1,10 @@
-## Изменения:
-- Добавлено что-то..
-- Изменено что-то..
-- Удалено что-то..
-- Исправлена ошибка с чем-то..
+## Changes:
+- Added something..
+- Changed something..
+- Removed something..
+- Bug fixed..
 
-### Опишите изменения по форме выше (Добавление, удаление чего-то тоже изменение)
-### Также упомяните об исправленных ошибках, если они исправлены
+### Describe changes by form above (Adding, deletion of something is also change)
+### Also mention bug fixes if it fixed
 
-### Текст с тройными решётками можно стереть
+### Remove text with 3 sharps
