@@ -24,10 +24,5 @@ class Events(commands.Cog):
     async def on_message(self, message):
         print("{0.guild} - {0.author}: {0.content}".format(message))
 
-        if message.author.bot:
-            return
-        elif message.author == self.client.user:
-            return
-
 def setup(client):
     client.add_cog(Events(client))
