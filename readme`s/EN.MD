@@ -1,4 +1,4 @@
-# <img src="https://flagpedia.net/data/flags/w580/us.webp" width=30> Français
+# <img src="https://flagpedia.net/data/flags/w580/us.webp" width=30> English
 # discord-commands-bot [![CodeFactor](https://www.codefactor.io/repository/github/r-liner/discord-commands-bot/badge)](https://www.codefactor.io/repository/github/r-liner/discord-commands-bot)
 
 ## Installation
