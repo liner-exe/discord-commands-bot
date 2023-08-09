@@ -3,7 +3,7 @@
 ## Installation
 ### Install Python 3.8 or newer
 [Install](https://www.python.org/downloads/)
-### Install module nextcord
+### Install the nextcord module
 
 
 ```sh
