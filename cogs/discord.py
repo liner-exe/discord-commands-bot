@@ -14,12 +14,12 @@ class Discord(commands.Cog):
         try:
             if user.avatar or user.guild_avatar:
                 user_avatar = user.avatar.url
-                embed = nextcord.Embed(title=f"Аватар пользователя **{user.name}**")
+                embed = nextcord.Embed(title=f"Avatar of user **{user.name}**")
                 embed.set_image(url=user_avatar)
                 await ctx.send(embed=embed)
 
             elif not user.avatar and not user.guild_avatar:
-                return await ctx.send("У данного пользователя нет аватара.")
+                return await ctx.send("User has no avatar.")
 
         except Exception as err:
             print(err)

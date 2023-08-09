@@ -10,8 +10,6 @@ from datetime import timezone, timedelta
 import math
 import configparser
 
-from embed.colors import Colors
-
 config = configparser.ConfigParser()
 config.read("config.ini")
 
@@ -22,32 +20,27 @@ class Fun(commands.Cog):
 
     @commands.command()
     async def dice(self, ctx):
-        try:
-            player_dice, bot_dice = [random.randint(2, 12) for _ in range(2)]
+        player_dice, bot_dice = [random.randint(1, 6) for _ in range(2)]
+        print(player_dice, bot_dice)
+        if player_dice > bot_dice:
+            result = "You won!"
+            color = nextcord.Color.green()
 
-            if player_dice > bot_dice:
-                result = "Вы победили!"
-                color = Colors.light_green
+        elif player_dice < bot_dice:
+            result = "You lost.."
+            color = nextcord.Color.red()
 
-            elif bot_dice > player_dice:
-                result = "Вы проиграли.."
-                color = Colors.light_red
+        else:
+            result = "Draw.."
+            color = nextcord.Color.teal()
 
-            elif bot_dice == player_dice:
-                result = "Ничья.."
-                color = Colors.teal
+        embed = nextcord.Embed(title="Dice", description="\n".join([f"You: {player_dice} 🎲",
+                                                                     f"{self.client.user.display_name}: {bot_dice} 🎲\n",
+                                                                     f"**Result**",
+                                                                     f"{result}"]),
+                                colour=color)
 
-            embed = nextcord.Embed(title="Кости", description="\n".join([f"Вы: {player_dice} 🎲",
-                                                                         f"{self.client.user.display_name}: {bot_dice} 🎲\n",
-                                                                         f"**Результат**",
-                                                                         f"{result}"]),
-                                   colour=color
-                                   )
-
-            await ctx.send(embed=embed)
-
-        except Exception as error:
-            print(error)
+        await ctx.send(embed=embed)
 
     @commands.command(aliases=["slots"])
     async def roll(self, ctx):
@@ -59,21 +52,21 @@ class Fun(commands.Cog):
 
         if a == b == c:
             color = 0x33ff00
-            name, value = "Абсолютная победа!", f"Все 3 символа совпали."
+            name, value = "Absolute win!", f"All 3 symbols matched."
 
         elif (a == b) or (a == c) or (b == c):
             color = 0xffff00
-            name, value = "Вы победили!", "2 символа совпали."
+            name, value = "You won!", "All 2 symbols matched."
 
         else:
             color = 0xff0000
-            name, value = "Вы проиграли..", "Ничего не совпало."
+            name, value = "You lost..", "Nothing matched."
 
-        slotmachine = nextcord.Embed(title="Слоты", description=f"🎰 ({a}|{b}|{c})", colour=color)
+        slotmachine = nextcord.Embed(title="Slots", description=f"🎰 ({a}|{b}|{c})", colour=color)
         slotmachine.add_field(name=name, value=value)
         await ctx.send(embed=slotmachine)
 
-    @commands.command(aliases=["pass", "пароль"])
+    @commands.command(aliases=["pass"])
     async def password(self, ctx, *, lenght: int = None):
         lower = 'abcdefghijklmnopqrstuvwxyz'
         upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -85,31 +78,26 @@ class Fun(commands.Cog):
         if 8 <= lenght <= 74:
             pass
         elif lenght > 74:
-            return await ctx.send("Пароль может быть не более 74 символов.")
+            return await ctx.send("Password must be contain 74 symbols or fewer.")
         else:
-            return await ctx.send("Пароль должен быть не менее 8 символов.")
+            return await ctx.send("Password must be contain 8 symbols or higher.")
 
         password = ''.join(random.sample(symbols, lenght))
         embed = nextcord.Embed(
             title='Password generator',
-            description=f'Ваш рандомный пароль: ``{password}``',
+            description=f'Your random password: ``{password}``',
             timestamp=ctx.message.created_at,
             colour=0x45fc03
         )
-        embed.add_field(name='Внимание ⚠️', value='Генератор паролей не рекомендуется использовать на серверах.')
+        embed.add_field(name='Warning ⚠️', value='Password generator not recommended for use on guilds.')
         await ctx.send(embed=embed)
 
     @commands.command()
     async def coin(self, ctx):
-        array_coins = ['Орёл', 'Решка']
+        array_coins = ['heads', 'tails']
         coin_flip = random.choice(array_coins)
 
-        if coin_flip == 'Орёл':
-            description = f"Монетка подкинута и выпал **{coin_flip}**."
-        else:
-            description = f"Монетка подкинута и выпала **{coin_flip}**."
-
-        embed = nextcord.Embed(description=description, colour=0xdf03fc)
+        embed = nextcord.Embed(description=f"Coin tossed and **{coin_flip}** falls out.", colour=0xdf03fc)
         await ctx.send(embed=embed)
 
     @commands.command()
@@ -124,11 +112,11 @@ class Fun(commands.Cog):
     async def reverse(self, ctx, *, sentence):
         await ctx.send(f"{sentence[::-1]}")
 
-    @commands.command(name="Рандомное число")
-    async def random(self, ctx, first_num: int = 0, *, second_num: int = 10):
+    @commands.command()
+    async def random(self, ctx, first_num: int = 1, *, second_num: int = 10):
         try:
-            embed = nextcord.Embed(description=f"Число в диапозоне **от {first_num} до {second_num}**")
-            embed.add_field(name="Результат", value=f"{random.randint(first_num, second_num)}")
+            embed = nextcord.Embed(description=f"Number in range **from {first_num} to {second_num}**")
+            embed.add_field(name="Result", value=f"{random.randint(first_num, second_num)}")
             await ctx.send(embed=embed)
 
         except Exception as error:
@@ -137,7 +125,7 @@ class Fun(commands.Cog):
     @commands.command()
     async def guess(self, ctx):
 
-        await ctx.reply("Напиши число от 1 до 5")
+        await ctx.reply("Type the number from 1 to 5")
 
         try:
             number = await self.client.wait_for('message', check=lambda message: message.author == ctx.author,
@@ -145,46 +133,30 @@ class Fun(commands.Cog):
             h_number = random.randint(1, 5)
 
         except asyncio.TimeoutError:
-            await ctx.send("Время вышло... Попробуйте снова.")
+            await ctx.send("Time is out... Try again.")
 
         else:
             try:
                 if int(number.content) == h_number and 1 <= int(number.content) <= 5:
-                    color = Colors.light_green
-                    result = f"**ВЫ УГАДАЛИ!**\n\nВаше число: {number.content}\nЗагаданное число: {h_number}"
+                    color = nextcord.Color.green()
+                    result = f"**YOU RIGHT!**\n\nYour number: {number.content}\nHidden number: {h_number}"
 
                 elif int(number.content) != h_number and 1 <= int(number.content) <= 5:
-                    color = Colors.light_red
-                    result = f"**ВЫ НЕ УГАДАЛИ..**\n\n**Ваше число:** {number.content}\n**Загаданное число:** {h_number}"
+                    color = nextcord.Color.red()
+                    result = f"**YOU NOT RIGHT..**\n\n**Your number:** {number.content}\n**Hidden number:** {h_number}"
 
                 else:
-                    color = Colors.yellow
-                    result = "Ой! Ошибочка вышла..."
+                    color = nextcord.Color.yellow()
+                    result = "Ooops! Error happens..."
 
-                embed = nextcord.Embed(title="Угадай число", description=result, colour=color)
+                embed = nextcord.Embed(title="Guees the number", description=result, colour=color)
                 await ctx.send(embed=embed)
 
             except ValueError:
-                await ctx.send("Я не понял, что вы написали...")
+                await ctx.send("I don`t get which you typed...")
 
     @commands.command()
-    async def eval(self, ctx, *, content):
-        try:
-            embed = nextcord.Embed(description=content)
-            embed.add_field(name="Результат", value=eval(content))
-            await ctx.send(embed=embed)
-
-        except SyntaxError:
-            await ctx.send("Недопустимое выражение")
-
-        except ZeroDivisionError:
-            await ctx.send("Нельзя делить на ноль!")
-
-        except Exception as error:
-            print(error)
-
-    @commands.command()
-    async def weather(self, ctx, a_city):
+    async def weather(self, ctx, *, a_city):
         try:
             ow_token = config["bot"]["openweather_token"]
             response = requests.get(
@@ -198,17 +170,17 @@ class Fun(commands.Cog):
             wind = data["wind"]["speed"]
             time_zone = data["timezone"]
 
-            sunrise_timestamp = datetime.datetime.fromtimestamp(data["sys"]["sunrise"])
-            sunset_timestamp = datetime.datetime.fromtimestamp(data["sys"]["sunset"])
+            sunrise_timestamp = datetime.datetime.fromtimestamp(data["sys"]["sunrise"]).strftime('%H:%M %d/%m/%Y')
+            sunset_timestamp = datetime.datetime.fromtimestamp(data["sys"]["sunset"]).strftime('%H:%M %d/%m/%Y')
 
             emoji = {
-                "Clear": "Ясно \U00002600",
-                "Clouds": "Облачно \U00002601",
-                "Rain": "Дождь \U00002614",
-                "Drizzle": "Дождь \U00002614",
-                "Thunderstorm": "Гроза \U000026A1",
-                "Snow": "Снег \U0001F328",
-                "Mist": "Туман \U0001F32B"
+                "Clear": "Clear \U00002600",
+                "Clouds": "Clouds \U00002601",
+                "Rain": "Rain \U00002614",
+                "Drizzle": "Drizzle \U00002614",
+                "Thunderstorm": "Thunder \U000026A1",
+                "Snow": "Snow \U0001F328",
+                "Mist": "Mist \U0001F32B"
             }
 
             weather_description = data["weather"][0]["main"]
@@ -220,22 +192,22 @@ class Fun(commands.Cog):
 
             tz = timezone(timedelta(seconds=time_zone))
 
-            embed = nextcord.Embed(description=f"Погода в городе **{city}**")
-            embed.add_field(name="Дата", value=f"{datetime.datetime.now(tz).strftime('%d/%m/%Y')}")
-            embed.add_field(name="Время", value=f"{datetime.datetime.now(tz).strftime('%H:%M')}")
-            embed.add_field(name="Погода", value=f"{wd}")
-            embed.add_field(name="Температура", value=f"{temperature}°C")
-            embed.add_field(name="Влажность", value=f"{humidity}%")
-            embed.add_field(name="Давление", value=f"{math.ceil(pressure / 1.333)} мм.рт.ст")
-            embed.add_field(name="Ветер", value=f"{wind} м/с")
-            embed.add_field(name="Восход", value=f"{sunrise_timestamp}")
-            embed.add_field(name="Закат", value=f"{sunset_timestamp}")
+            embed = nextcord.Embed(description=f"Weather forecast in **{city} city**")
+            embed.add_field(name="Date", value=f"{datetime.datetime.now(tz).strftime('%d/%m/%Y')}")
+            embed.add_field(name="Time", value=f"{datetime.datetime.now(tz).strftime('%H:%M')}")
+            embed.add_field(name="Weather", value=f"{wd}")
+            embed.add_field(name="Temperature", value=f"{temperature}°C")
+            embed.add_field(name="Humidity", value=f"{humidity}%")
+            embed.add_field(name="Pressure", value=f"{math.ceil(pressure / 1.333)} mmHg.")
+            embed.add_field(name="Wind", value=f"{wind} meters/second")
+            embed.add_field(name="Sunrise", value=f"{sunrise_timestamp}")
+            embed.add_field(name="Sunset", value=f"{sunset_timestamp}")
 
             await ctx.send(embed=embed)
 
         except Exception as err:
             print(err)
-            await ctx.send("Указанного города не существует.")
+            await ctx.send("Incorrect city.")
 
 
 def setup(client):
