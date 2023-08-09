@@ -1,4 +1,4 @@
-# discord-bot-ru [![CodeFactor](https://www.codefactor.io/repository/github/r-liner/discord-bot-ru/badge)](https://www.codefactor.io/repository/github/r-liner/discord-bot-ru)
+# discord-commands-bot [![CodeFactor](https://www.codefactor.io/repository/github/r-liner/discord-commands-bot/badge)](https://www.codefactor.io/repository/github/r-liner/discord-commands-bot)
 
 ## Installation
 ### Install Python 3.8 or newer
