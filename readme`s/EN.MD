@@ -14,7 +14,7 @@ python3 -m pip install -U nextcord
 py -3 -m pip install -U nextcord
 ```
 
-### Download the code of bot
+### Download the bot code
 Download the zip archive of version marked as `latest` <br>
 and unpack it on any place of your PC. <br>
 [Download latest release](https://github.com/r-liner/discord-bot-ru/releases)
