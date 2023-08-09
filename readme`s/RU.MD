@@ -1,4 +1,5 @@
-# discord-bot-ru [![CodeFactor](https://www.codefactor.io/repository/github/r-liner/discord-commands-bot/badge)](https://www.codefactor.io/repository/github/r-liner/discord-commands-bot)
+# <img src="https://flagpedia.net/data/flags/w580/ru.webp" width=30> Русский
+# discord-commands-bot [![CodeFactor](https://www.codefactor.io/repository/github/r-liner/discord-commands-bot/badge)](https://www.codefactor.io/repository/github/r-liner/discord-commands-bot)
 
 ## Установка
 ### Установите Python 3.8 или новее
