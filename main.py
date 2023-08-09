@@ -24,26 +24,11 @@ except ImportError:
 client = commands.Bot(command_prefix=config["bot"]["prefix"], owner_id=int(config["bot"]["owner_id"]), intents=intents)
 client.remove_command('help')
 
-# статус
-
-status = cycle([f'{config["bot"]["prefix"]}help', f'use {config["bot"]["prefix"]}help for help', 'created by liner#9544'])
-
-
-@tasks.loop(seconds=15)
-async def change_status():
-	await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching, name=next(status)))
-	# await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.listening, name='.help'))
-	# await client.change_presence(activity=nextcord.Streaming(name='.help', url=''))
-	# await client.change_presence(status=nextcord.Status.Online, activity=nextcord.game('.help'))
-
-# ивенты
-
-
 @client.event
 async def on_ready():
-	change_status.start()
+	await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching, name="bot status"))
 	print("Logged in as {0.user}.".format(client))
-	print("Bot is using on " + str(len(client.guilds)) + ' servers!')
+	print("Bot is using on {0} servers!".format(len(client.guilds)))
 
 # загрузка когов
 
