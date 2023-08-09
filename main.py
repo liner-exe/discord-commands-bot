@@ -43,7 +43,7 @@ async def load(ctx, extension):
 
 	except Exception as error:
 		print(error)
-		await ctx.send("Неверное имя или невозможно загрузить")
+		await ctx.send("Incorrect name or not able to load")
 
 
 @client.command()
@@ -56,7 +56,7 @@ async def unload(ctx, extension):
 
 	except Exception as error:
 		print(error)
-		await ctx.send("Неверное имя или невозможно загрузить")
+		await ctx.send("Incorrect name or not able to unload")
 
 
 @client.command()
@@ -70,7 +70,7 @@ async def reload(ctx, extension):
 
 	except Exception as error:
 		print(error)
-		await ctx.send("Неверное имя или невозможно загрузить")
+		await ctx.send("Incorrect name or not able to reload")
 
 for filename in os.listdir("./cogs"):
 	if filename.endswith(".py"):
