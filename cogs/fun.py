@@ -10,8 +10,6 @@ from datetime import timezone, timedelta
 import math
 import configparser
 
-from embed.colors import Colors
-
 config = configparser.ConfigParser()
 config.read("config.ini")
 
@@ -22,32 +20,27 @@ class Fun(commands.Cog):
 
     @commands.command()
     async def dice(self, ctx):
-        try:
-            player_dice, bot_dice = [random.randint(2, 12) for _ in range(2)]
+        player_dice, bot_dice = [random.randint(1, 6) for _ in range(2)]
+        print(player_dice, bot_dice)
+        if player_dice > bot_dice:
+            result = "Вы победили!"
+            color = nextcord.Color.green()
 
-            if player_dice > bot_dice:
-                result = "Вы победили!"
-                color = Colors.light_green
+        elif player_dice < bot_dice:
+            result = "Вы проиграли.."
+            color = nextcord.Color.red()
 
-            elif bot_dice > player_dice:
-                result = "Вы проиграли.."
-                color = Colors.light_red
+        else:
+            result = "Ничья.."
+            color = nextcord.Color.teal()
 
-            elif bot_dice == player_dice:
-                result = "Ничья.."
-                color = Colors.teal
+        embed = nextcord.Embed(title="Кости", description="\n".join([f"Вы: {player_dice} 🎲",
+                                                                     f"{self.client.user.display_name}: {bot_dice} 🎲\n",
+                                                                     f"**Результат**",
+                                                                     f"{result}"]),
+                                colour=color)
 
-            embed = nextcord.Embed(title="Кости", description="\n".join([f"Вы: {player_dice} 🎲",
-                                                                         f"{self.client.user.display_name}: {bot_dice} 🎲\n",
-                                                                         f"**Результат**",
-                                                                         f"{result}"]),
-                                   colour=color
-                                   )
-
-            await ctx.send(embed=embed)
-
-        except Exception as error:
-            print(error)
+        await ctx.send(embed=embed)
 
     @commands.command(aliases=["slots"])
     async def roll(self, ctx):
@@ -124,8 +117,8 @@ class Fun(commands.Cog):
     async def reverse(self, ctx, *, sentence):
         await ctx.send(f"{sentence[::-1]}")
 
-    @commands.command(name="Рандомное число")
-    async def random(self, ctx, first_num: int = 0, *, second_num: int = 10):
+    @commands.command()
+    async def random(self, ctx, first_num: int = 1, *, second_num: int = 10):
         try:
             embed = nextcord.Embed(description=f"Число в диапозоне **от {first_num} до {second_num}**")
             embed.add_field(name="Результат", value=f"{random.randint(first_num, second_num)}")
@@ -150,15 +143,15 @@ class Fun(commands.Cog):
         else:
             try:
                 if int(number.content) == h_number and 1 <= int(number.content) <= 5:
-                    color = Colors.light_green
+                    color = nextcord.Color.green()
                     result = f"**ВЫ УГАДАЛИ!**\n\nВаше число: {number.content}\nЗагаданное число: {h_number}"
 
                 elif int(number.content) != h_number and 1 <= int(number.content) <= 5:
-                    color = Colors.light_red
+                    color = nextcord.Color.red()
                     result = f"**ВЫ НЕ УГАДАЛИ..**\n\n**Ваше число:** {number.content}\n**Загаданное число:** {h_number}"
 
                 else:
-                    color = Colors.yellow
+                    color = nextcord.Color.yellow()
                     result = "Ой! Ошибочка вышла..."
 
                 embed = nextcord.Embed(title="Угадай число", description=result, colour=color)
@@ -167,6 +160,7 @@ class Fun(commands.Cog):
             except ValueError:
                 await ctx.send("Я не понял, что вы написали...")
 
+    @commands.is_owner()
     @commands.command()
     async def eval(self, ctx, *, content):
         try:
