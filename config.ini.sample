@@ -1,9 +1,10 @@
 [bot]
-token=OTk3NDA5NDAxNzAwODgwNDM0.Gi9B5T.QlOAlxMQQocFMfzsy6icmQeHSGhtCD6gspbxaI
-openweather_token=f3923cf43434cff434343
-owner_id=923915325668487190
-prefix=.
-; fill in everything by yourself according to the format
-; the openweather token must be taken from the site https://openweathermap.org
-; remove the .sample extension to make everything work
-; remove these comments (for code purity)
+token             = OTk3NDA5NDAxNzAwODgwNDM0.Gi9B5T.QlOAlxMQQocFMfzsy6icmQeHSGhtCD6gspbxaI
+owner_id          = 923915325668487190
+prefix            = .
+
+[settings]
+admin_guild = 0
+
+[weather]
+openweather_token = f3923cf43434cff434343
