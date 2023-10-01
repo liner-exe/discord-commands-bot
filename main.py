@@ -1,8 +1,7 @@
 import nextcord
 import nextcord.errors
-from nextcord.ext import commands, tasks
+from nextcord.ext import commands, application_checks
 import os
-from itertools import cycle
 import sys
 import configparser
 
@@ -11,18 +10,11 @@ intents = nextcord.Intents.all()
 
 config = configparser.ConfigParser()
 config.read("config.ini")
-
-if sys.version_info < (3, 8):
-	exit("You need Python 3.8+ to run the bot.")
-
-try:
-	from nextcord import Intents, Client
-
-except ImportError:
-	exit("Nextcord isn`t installed or it`s old, unsupported version.")
+admin_guild = int(config['settings']['admin_guild'])
 
 client = commands.Bot(command_prefix=config["bot"]["prefix"], owner_id=int(config["bot"]["owner_id"]), intents=intents)
 client.remove_command('help')
+
 
 @client.event
 async def on_ready():
@@ -30,60 +22,104 @@ async def on_ready():
 	print("Logged in as {0.user}.".format(client))
 	print("Bot is using on {0} servers!".format(len(client.guilds)))
 
-# загрузка когов
+
+@client.event
+async def on_disconnect():
+	if client.is_closed():
+		await client.connect()
 
 
-@client.command()
-@commands.is_owner()
-async def load(ctx, extension):
+# WORKING WITH COGS
+
+
+@application_checks.is_owner()
+@client.slash_command(guild_ids=(admin_guild,))
+async def load(interaction, extension):
+	"""
+	Loading extension
+
+	Parameters
+	----------
+	interaction: Interaction
+	extension: str
+		Type name of extension to load.
+	"""
 	try:
 		client.load_extension(f"cogs.{extension}")
 		print(f"Cog {extension} is loaded.")
-		await ctx.send(f"Cog **{str.upper(extension)}** is loaded.")
+		await interaction.send(f"Cog **{str.upper(extension)}** is loaded.")
 
 	except Exception as error:
 		print(error)
-		await ctx.send("Incorrect name or not able to load")
+		await interaction.send("Incorrect name or not able to load")
 
 
-@client.command()
-@commands.is_owner()
-async def unload(ctx, extension):
+@application_checks.is_owner()
+@client.slash_command(guild_ids=(admin_guild,))
+async def unload(interaction, extension):
+	"""
+	Unloading extension
+
+	Parameters
+	----------
+	interaction: Interaction
+	extension: str
+		Type name of extension to unload.
+	"""
 	try:
 		client.unload_extension(f"cogs.{extension}")
 		print(f"Cog {str.upper(extension)} is unloaded.")
-		await ctx.send(f"Cog **{str.upper(extension)}** is unloaded.")
+		await interaction.send(f"Cog **{str.upper(extension)}** is unloaded.")
 
 	except Exception as error:
 		print(error)
-		await ctx.send("Incorrect name or not able to unload")
+		await interaction.send("Incorrect name or not able to unload")
 
 
-@client.command()
-@commands.is_owner()
-async def reload(ctx, extension):
+@application_checks.is_owner()
+@client.slash_command(guild_ids=(admin_guild,))
+async def reload(interaction, extension):
+	"""
+	Reloading extension
+
+	Parameters
+	----------
+	interaction: Interaction
+	extension: str
+		Type name of extension to reload.
+	"""
 	try:
 		client.unload_extension(f"cogs.{extension}")
 		client.load_extension(f"cogs.{extension}")
 		print(f"Cog {str.upper(extension)} is reloaded.")
-		await ctx.send(f"Cog **{str.upper(extension)}** is reloaded.")
+		await interaction.send(f"Cog **{str.upper(extension)}** is reloaded.")
 
 	except Exception as error:
 		print(error)
-		await ctx.send("Incorrect name or not able to reload")
+		await interaction.send("Incorrect name or not able to reload")
 
 for filename in os.listdir("./cogs"):
 	if filename.endswith(".py"):
 		client.load_extension(f"cogs.{filename[:-3]}")
 
-try:
-	client.run(config["bot"]["token"])
+if __name__ == '__main__':
+	if sys.version_info < (3, 8):
+		exit("You need Python 3.8+ to run the bot.")
 
-except Exception as err:
-	print(err)
+	try:
+		from nextcord import Intents, Client
 
-except nextcord.PrivilegedIntentsRequired:
-	exit("Login failure! Privileged Intents not enabled.")
+	except ImportError:
+		exit("Nextcord isn`t installed or it`s old, unsupported version.")
 
-except nextcord.errors.LoginFailure:
-	exit("Login failure! Token is required.")
+	try:
+		client.run(config["bot"]["token"])
+
+	except Exception as err:
+		print(err)
+
+	except nextcord.PrivilegedIntentsRequired:
+		exit("Login failure! Privileged Intents not enabled.")
+
+	except nextcord.errors.LoginFailure:
+		exit("Login failure! Token is required.")
