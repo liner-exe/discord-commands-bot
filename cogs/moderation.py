@@ -8,16 +8,16 @@ class Moderation(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 		
-	# Закрытие канала
+	# Closing channel
 
 	@commands.command(aliases=["lock"])
 	@commands.has_permissions(manage_channels=True)
 	async def lockdown(self, ctx):
 		await ctx.message.delete()
 		await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=False)
-		await ctx.send( ctx.channel.mention + " - **Channel locked.**")
+		await ctx.send(ctx.channel.mention + " - **Channel locked.**")
 	
-	# Открытие канала
+	# Opening channel
 
 	@commands.command()
 	@commands.has_permissions(manage_channels=True)
@@ -26,7 +26,7 @@ class Moderation(commands.Cog):
 		await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=True)
 		await ctx.send( ctx.channel.mention + " - **Channel unclocked.**")
 
-	# Бан
+	# Ban
 
 	@commands.command()
 	@commands.has_permissions(ban_members=True)
@@ -40,7 +40,7 @@ class Moderation(commands.Cog):
 		await ctx.send(embed=embed)
 		await member.ban(reason=reason)
 
-	# Разбан
+	# Unban
 
 	@commands.command()
 	@commands.has_permissions(administrator=True)
@@ -63,6 +63,8 @@ class Moderation(commands.Cog):
 				await ctx.send(embed=embed)
 				return
 
+	# Kick
+
 	@commands.command()
 	@commands.has_permissions(kick_members=True)
 	async def kick(self, ctx, member: nextcord.Member, *, reason: Optional[str] = "No reason."):
@@ -75,6 +77,8 @@ class Moderation(commands.Cog):
 		embed.add_field(name="Reason", value=f"{reason}", inline=True)
 		embed.set_footer(text=f'Administrator - {ctx.author.name}#{ctx.author.discriminator}', icon_url=ctx.author.avatar.url)
 		await ctx.send(embed=embed)
+
+	# Clear / Purge
 
 	@commands.command(aliases=["purge"])
 	@commands.has_permissions(manage_messages=True)
