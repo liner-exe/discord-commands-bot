@@ -1,0 +1,69 @@
+name: Bug Report
+description: Create a bug report
+labels:
+  - 'bug'
+body:
+  - type: markdown
+    attributes:
+      value: >
+        placeholder
+  - type: textarea
+    id: summary
+    attributes:
+      label: Description
+      description: >
+        ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+      description: >
+        ...
+    validations:
+      required: true
+  - type: textarea
+    id: results
+    attributes:
+      label: Actual results
+      description: >
+        ...
+    validations:
+      required: true
+  - type: textarea
+    id: code
+    attributes:
+      label: Minimal code example
+      description: >
+        ...
+  - type: textarea
+    id: output
+    attributes:
+      label: Error messages
+      description: >
+        ...
+  - type: input
+    id: os
+    attributes:
+      label: Operation System
+      description: >
+        ...
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      description: >
+        ...
+    validations:
+      required: true
+  - type: input
+    id: nextcord
+    attributes:
+      label: Nextcord version
+      description: >
+        ...
+    validations:
+      required: true
