@@ -1,4 +1,4 @@
-# Version list
+# Discord Commands Bot - Changelog
 - [v0.7.6](#v076-2024-01-19)
 - [v0.7.5](#v075-2023-10-01)
 
