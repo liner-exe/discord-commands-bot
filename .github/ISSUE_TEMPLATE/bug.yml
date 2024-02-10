@@ -1,5 +1,6 @@
 name: 🐛 Bug Report
 description: Create a bug report
+title:
 labels:
   - 'bug'
 body:
@@ -7,6 +8,7 @@ body:
     attributes:
       value: >
         Thanks for taking the time to fill out this bug report!
+        ⚠️ If you do not use this template, we will simply close your issue.
   - type: textarea
     id: summary
     attributes:
