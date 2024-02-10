@@ -5,7 +5,6 @@ import os
 import sys
 import configparser
 
-
 intents = nextcord.Intents.all()
 
 config = configparser.ConfigParser()

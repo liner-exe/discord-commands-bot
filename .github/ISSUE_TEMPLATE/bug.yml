@@ -1,4 +1,4 @@
-name: Bug Report
+name: 🐛 Bug Report
 description: Create a bug report
 labels:
   - 'bug'
@@ -6,13 +6,19 @@ body:
   - type: markdown
     attributes:
       value: >
-        placeholder
+        Thanks for taking the time to fill out this bug report!
   - type: textarea
     id: summary
     attributes:
       label: Description
       description: >
-        ...
+        Please provide a detailed description of the bug.
+  - type: textarea
+    id: howtoreproduce
+    attributes:
+      label: How to Reproduce
+      description: >
+        Describe steps to reproduce the issue.
     validations:
       required: true
   - type: textarea
@@ -20,7 +26,7 @@ body:
     attributes:
       label: Expected behaviour
       description: >
-        ...
+        Describe what was expected to happen.
     validations:
       required: true
   - type: textarea
@@ -28,7 +34,7 @@ body:
     attributes:
       label: Actual results
       description: >
-        ...
+        Describe what actually happened.
     validations:
       required: true
   - type: textarea
@@ -36,19 +42,19 @@ body:
     attributes:
       label: Minimal code example
       description: >
-        ...
+        If applicable, provide a minimal code example to reproduce the bug.
   - type: textarea
     id: output
     attributes:
       label: Error messages
       description: >
-        ...
+        If applicable, provide any error messages or output related to the bug.
   - type: input
     id: os
     attributes:
       label: Operation System
       description: >
-        ...
+        Specify the operating system you are using.
     validations:
       required: true
   - type: input
@@ -56,7 +62,7 @@ body:
     attributes:
       label: Python version
       description: >
-        ...
+        Specify the version of Python you are using.
     validations:
       required: true
   - type: input
@@ -64,6 +70,6 @@ body:
     attributes:
       label: Nextcord version
       description: >
-        ...
+        Specify the version of Nextcord you are using.
     validations:
       required: true
