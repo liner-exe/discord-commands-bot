@@ -82,7 +82,7 @@ pip install -r requirements.txt
 **Manual Installation**
 1. Complete [prerequisites](#prerequisites).
 2. [Download latest release](https://github.com/r-liner/discord-bot-ru/releases).
-3. Launch `setup.py` and complete setup procces.
+3. Launch `setup.py` and complete setup process.
 4. Done. Now you can launch the bot.
 
 **Installation via Git**
