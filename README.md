@@ -106,7 +106,7 @@ During run the bot you must see:
 - March - Code simplify.
 
 ## Changelog
-You can find it [here]().
+You can find it [here](https://github.com/r-liner/discord-commands-bot/blob/master/CHANGELOG.md).
 
 ## Support
 ❓ If you have a **question** ask it [here](https://github.com/r-liner/discord-commands-bot/issues).
