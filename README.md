@@ -120,7 +120,7 @@ Please ensure that you have thoroughly tested all your changes.
 Even if you`re not the programmer, you can contribute to this project by reporting bugs, requesting new features, fixing typos, etc.
 
 ## Contact
-If you have a question regarding the project, [open new issue](https://github.com/r-liner/discord-commands-bot/issue/new/choose).
+If you have a question regarding the project, [open new issue](https://github.com/r-liner/discord-commands-bot/issues/new/choose).
 
 If your request would contain confidentional information, [please send me an email](mailto:contact.liner999@gmail.com).
 
