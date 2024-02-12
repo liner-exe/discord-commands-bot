@@ -1,12 +1,23 @@
 # Discord Commands Bot - Changelog
-- [v0.7.6](#v076-2024-01-19)
-- [v0.7.5](#v075-2023-10-01)
 
+## v0.7.7 (2024-02-12)
+### Documentaion
+- **pull_request_template.md:** new pr template
+- **CHANGELOG.md:** added changelog file
+- **LICENSE:** 2022-2023 -> 2022-2024
+- **.version:** version bumped to 0.7.7
+- **bug.yml:** added bug template
+- **config.yml:** added question template
+- **README.md:** readme 2.0 (re-built)
+
+### Misc
+- **misc(file):** added new screenshots
+- **misc(file):** deleted old READMEs
 
 ## v0.7.6 (2024-01-19)
 
 ### Tweaks
-- **change:** comments translated in `moderation.py` (ba8814fe3ce0e9a680652313f4cbe9e371d710a9)
+- **change:** comments translated in `moderation.py`
 
 ## v0.7.5 (2023-10-01)
 
