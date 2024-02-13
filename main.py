@@ -114,11 +114,11 @@ if __name__ == '__main__':
 	try:
 		client.run(config["bot"]["token"])
 
-	except Exception as err:
-		print(err)
-
 	except nextcord.PrivilegedIntentsRequired:
 		exit("Login failure! Privileged Intents not enabled.")
 
 	except nextcord.errors.LoginFailure:
 		exit("Login failure! Token is required.")
+
+	except Exception as err:
+		print(err)

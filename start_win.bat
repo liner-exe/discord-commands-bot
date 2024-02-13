@@ -16,7 +16,7 @@ if errorlevel 1 (
 
 :install_python
 cls
-echo You must install Python 3.8 or above!
+echo You must install Python 3.8 or higher!
 echo Install Python and try again.
 echo.
 echo If python already installed, reinstall and add it to PATH via "Add Python to PATH" during installation
@@ -27,7 +27,7 @@ pause
 exit
 
 :run
-py main.py
+python main.py
 
 pause
 exit
@@ -38,7 +38,7 @@ cls
 echo You must setup the bot firstly
 echo.
 
-py setup.py
+python setup.py
 
 pause
 exit

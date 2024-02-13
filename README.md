@@ -82,7 +82,7 @@ pip install -r requirements.txt
 **Manual Installation**
 1. Complete [prerequisites](#prerequisites).
 2. [Download latest release](https://github.com/r-liner/discord-bot-ru/releases).
-3. Launch `setup.py` and complete setup procces.
+3. Launch `setup.py` and complete setup process.
 4. Done. Now you can launch the bot.
 
 **Installation via Git**
@@ -106,7 +106,7 @@ During run the bot you must see:
 - March - Code simplify.
 
 ## Changelog
-You can find it [here]().
+You can find it [here](https://github.com/r-liner/discord-commands-bot/blob/master/CHANGELOG.md).
 
 ## Support
 ❓ If you have a **question** ask it [here](https://github.com/r-liner/discord-commands-bot/issues).
@@ -120,7 +120,7 @@ Please ensure that you have thoroughly tested all your changes.
 Even if you`re not the programmer, you can contribute to this project by reporting bugs, requesting new features, fixing typos, etc.
 
 ## Contact
-If you have a question regarding the project, [open new issue](https://github.com/r-liner/discord-commands-bot/issue/new/choose).
+If you have a question regarding the project, [open new issue](https://github.com/r-liner/discord-commands-bot/issues/new/choose).
 
 If your request would contain confidentional information, [please send me an email](mailto:contact.liner999@gmail.com).
 
