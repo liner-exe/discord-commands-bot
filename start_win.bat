@@ -27,7 +27,7 @@ pause
 exit
 
 :run
-py main.py
+python main.py
 
 pause
 exit
@@ -38,7 +38,7 @@ cls
 echo You must setup the bot firstly
 echo.
 
-py setup.py
+python setup.py
 
 pause
 exit
