@@ -65,7 +65,7 @@ class Info(commands.Cog):
         embed.add_field(name="CPU Usage", value=f"{cpu_usage} %")
         embed.add_field(name="Servers", value=len(interaction.client.guilds))
         embed.add_field(name="Ping", value=int(round(self.client.latency * 1000, 1)))
-        embed.add_field(name="Commands", value=len([x.name for x in self.client.commands]))
+        embed.add_field(name="Commands", value=len(self.client.get_all_application_commands()))
 
         await interaction.send("📊 **Stats**", embed=embed)
 
