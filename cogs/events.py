@@ -1,5 +1,5 @@
 import nextcord
-from nextcord.ext import commands
+from nextcord.ext import commands, application_checks
 from nextcord.ext.commands import errors
 
 
@@ -19,6 +19,23 @@ class Events(commands.Cog):
 
         elif isinstance(err, errors.MissingPermissions):
             await ctx.send("You haven`t permissions.")
+
+    @commands.Cog.listener()
+    async def on_application_command_error(self, interaction, error: Exception):
+        embed = nextcord.Embed(title="Error", colour=nextcord.Colors.light_red)
+
+        if isinstance(error, application_checks.errors.ApplicationMissingPermissions):
+            embed.description = "You do not have permissions to perform this action."
+            embed.add_field(name="Hint", value="Permissions needed, for example: \"BAN MEMBERS\".")
+
+        if isinstance(error, nextcord.errors.ApplicationInvokeError):
+            embed.description = "Bot does not have sufficient permissions."
+            embed.add_field(name="Hint", value="Give the bot administrator permissions and make its role higher than others (except admins).")
+            embed.add_field(name="Hint 2", value="The error could be on the developer's side. Please report this to the developer.")
+
+        if isinstance(error, application_checks.errors.ApplicationNSFWChannelRequired):
+            embed.description = "Channel is not NSFW."
+            embed.add_field(name="Hint", value="Send the command in an NSFW channel.")
 
     @commands.Cog.listener()
     async def on_message(self, message):

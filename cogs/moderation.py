@@ -1,97 +1,146 @@
 import nextcord
-from typing import Optional
-from nextcord.ext import commands
+from nextcord.ext import commands, application_checks
 from nextcord import Member
+
+import asyncio
 
 
 class Moderation(commands.Cog):
 	def __init__(self, client):
 		self.client = client
-		
-	# Closing channel
 
-	@commands.command(aliases=["lock"])
-	@commands.has_permissions(manage_channels=True)
-	async def lockdown(self, ctx):
-		await ctx.message.delete()
-		await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=False)
-		await ctx.send(ctx.channel.mention + " - **Channel locked.**")
-	
-	# Opening channel
+	@application_checks.has_permissions(manage_channels=True)
+	@nextcord.slash_command()
+	async def lockdown(self, interaction):
+		"""
+		Lock a channel.
+		"""
+		current_permissions = interaction.channel.overwrites_for(interaction.guild.default_role)
+		current_permissions.send_messages = False
+		await interaction.channel.set_permissions(interaction.guild.default_role, overwrite=current_permissions)
+		embed = nextcord.Embed(description=f"**🔒 Channel locked**\n\n{interaction.channel.mention}")
+		embed.set_author(name=interaction.user.name, icon_url=interaction.user.avatar.url)
 
-	@commands.command()
-	@commands.has_permissions(manage_channels=True)
-	async def unlock(self, ctx):
-		await ctx.message.delete()
-		await ctx.channel.set_permissions(ctx.guild.default_role, send_messages=True)
-		await ctx.send( ctx.channel.mention + " - **Channel unclocked.**")
+		await interaction.send(embed=embed)
 
-	# Ban
+	@application_checks.has_permissions(manage_channels=True)
+	@nextcord.slash_command()
+	async def unlock(self, interaction):
+		"""
+		Open a channel.
+		"""
+		embed = nextcord.Embed(title="Channel Unlocked", description=interaction.channel.mention,
+                       colour=nextcord.Color.brand_green())
+		embed.set_author(name=interaction.user.name, icon_url=interaction.user.avatar.url)
 
-	@commands.command()
-	@commands.has_permissions(ban_members=True)
-	async def ban(self, ctx, member: Member, *, reason: Optional[str] = "No reason."):
-		await ctx.message.delete()
-		await ctx.channel.trigger_typing()
-		embed = nextcord.Embed(description=f"🚫 User **{member.name}** banned!", colour=0xff0000)
-		embed.add_field(name="User", value=f"{member.mention}")
-		embed.add_field(name="Reason", value=f"{reason}")
-		embed.set_footer(text=f'Administrator - {ctx.author.name}#{ctx.author.discriminator}', icon_url=ctx.author.avatar.url)
-		await ctx.send(embed=embed)
-		await member.ban(reason=reason)
+		current_permissions = interaction.channel.overwrites_for(interaction.guild.default_role)
 
-	# Unban
+		if current_permissions.send_messages is True:
+			return await interaction.send("**You cannot unlock a channel that is not locked!**",
+										ephemeral=True)
 
-	@commands.command()
-	@commands.has_permissions(administrator=True)
-	async def unban(self, ctx, *, member, reason: Optional[str] = "No reason."):
-		await ctx.message.delete()
-		await ctx.channel.trigger_typing()
-		banned_users = await ctx.guild.bans()
-		member_name, member_discriminator = member.split("#")
+		current_permissions.send_messages = True
+		await interaction.channel.set_permissions(interaction.guild.default_role, overwrite=current_permissions)
 
-		for ban_entry in banned_users:
-			user = ban_entry.user
+		await interaction.send(embed=embed)
 
-			if(user.name, user.discriminator) == (member_name, member_discriminator):
-				await ctx.channel.trigger_typing()
-				await ctx.guild.unban(user)
-				embed = nextcord.Embed(description=f"✅ User **{user.name}** unbanned!", colour=0x33ff00)
-				embed.add_field(name="User", value=f"{user.mention}")
-				embed.add_field(name="Reason", value=f"{reason}")
-				embed.set_footer(text=f'Administrator - {ctx.author.name}#{ctx.author.discriminator}', icon_url=ctx.author.avatar.url)
-				await ctx.send(embed=embed)
-				return
+	@application_checks.has_permissions(ban_members=True)
+	@nextcord.slash_command()
+	async def ban(self, interaction, member: Member, reason: str = nextcord.SlashOption(default="No reason.")):
+		"""
+		Ban a certain user.
+		"""
+		embed = nextcord.Embed(title='Ban', colour=nextcord.Colors.light_red)
 
-	# Kick
+		error_embed = nextcord.Embed(title="Error", colour=nextcord.Colors.light_red)
 
-	@commands.command()
-	@commands.has_permissions(kick_members=True)
-	async def kick(self, ctx, member: nextcord.Member, *, reason: Optional[str] = "No reason."):
-		await ctx.message.delete()
-		await ctx.channel.trigger_typing()
+		if member.bot:
+			error_embed.description = "**You cannot ban a bot!**"
+			return await interaction.send(embed=error_embed, ephemeral=True)
+
+		elif interaction.user.id == member.id:
+			error_embed.description = "**You cannot ban yourself!**"
+			return await interaction.send(embed=error_embed, ephemeral=True)
+
+		else:
+			embed.description = f"🚫 User **{member.name}** has been banned!"
+			embed.add_field(name="User", value=member.mention)
+			embed.add_field(name="Reason", value=reason)
+			embed.set_footer(text=f'Administrator - {interaction.user.name}',
+							icon_url=interaction.user.avatar.url)
+			await member.ban(reason=reason)
+			await interaction.send(embed=embed)
+
+	@application_checks.has_permissions(administrator=True)
+	@nextcord.slash_command()
+	async def unban(self, interaction, member, reason: str = nextcord.SlashOption(default="No reason.")):
+		banned_users = await interaction.guild.fetch_ban(user=member)
+
+		embed = nextcord.Embed(title='Unban')
+
+		if interaction.user.id == member.id:
+			embed.title = 'Error'
+			embed.description = "You cannot unban yourself!"
+			embed.colour = nextcord.Color.red()
+			return await interaction.send(embed=embed, ephemeral=True)
+
+		if member.bot:
+			embed.title = 'Error'
+			embed.description = "Cannot unban the user. User is a bot."
+			embed.colour = nextcord.Color.red()
+			return await interaction.send(embed=embed, ephemeral=True)
+
+		if banned_users:
+			await interaction.guild.unban(member)
+
+			embed.description = f"✅ User **{member.name}** has been unbanned!"
+			embed.colour = nextcord.Color.green()
+
+			embed.add_field(name="User", value=f"{member.mention}")
+			embed.add_field(name="Reason", value=f"{reason}")
+			embed.set_footer(text=f'Administrator - {interaction.user.name}',
+							icon_url=interaction.user.avatar.url)
+			await interaction.send(embed=embed)
+		else:
+			embed.description = "❌ The specified user is not banned."
+			embed.colour = nextcord.Color.fuchsia()
+			await interaction.send(embed=embed, ephemeral=True)
+
+	@application_checks.has_permissions(kick_members=True)
+	@nextcord.slash_command()
+	async def kick(self, interaction, member: nextcord.Member, reason: str = nextcord.SlashOption(default="No reason.")):
+		embed = nextcord.Embed(title='Kick')
+
+		if interaction.user.id == member.id:
+			embed.title = 'Error'
+			embed.description = "You cannot kick yourself!"
+			embed.colour = nextcord.Color.red()
+			return await interaction.send(embed=embed, ephemeral=True)
+
+		if member.bot:
+			embed.title = 'Error'
+			embed.description = "Cannot kick the user. User is a bot."
+			embed.colour = nextcord.Color.red()
+			return await interaction.send(embed=embed, ephemeral=True)
+
 		await member.kick(reason=reason)
 
-		embed = nextcord.Embed(description=f"❌ User **{member.name}** kicked!", colour=0xff0000)
+		embed.description = f"❌ User **{member.name}** has been kicked!"
+		embed.colour = nextcord.Color.yellow()
+
 		embed.add_field(name="User", value=f"{member.mention}", inline=True)
-		embed.add_field(name="Reason", value=f"{reason}", inline=True)
-		embed.set_footer(text=f'Administrator - {ctx.author.name}#{ctx.author.discriminator}', icon_url=ctx.author.avatar.url)
-		await ctx.send(embed=embed)
+		embed.add_field(name="Reason", value="Not specified." if not reason else reason, inline=True)
+		embed.set_footer(text=f'Administrator - {interaction.user.name}', icon_url=interaction.user.avatar.url)
+		await interaction.send(embed=embed)
 
-	# Clear / Purge
+	@application_checks.has_permissions(manage_messages=True)
+	@nextcord.slash_command()
+	async def clear(self, interaction, amount: int = nextcord.SlashOption(min_value=1, max_value=100)):
+		deleted = await interaction.channel.purge(limit=amount)
 
-	@commands.command(aliases=["purge"])
-	@commands.has_permissions(manage_messages=True)
-	async def clear(self, ctx, *, amount: int = None):
-		try:
-			await ctx.channel.purge(limit=amount+1)
-			await ctx.send(f'{amount} messages deleted.')
-
-		except Exception as error:
-			await ctx.send(error)
-
-		except PermissionError:
-			await ctx.send("You haven`t permissions.")
+		msg = await interaction.send(f'Messages deleted: **{len(deleted)}**')
+		await asyncio.sleep(3)
+		await msg.delete()
 
 
 def setup(client):

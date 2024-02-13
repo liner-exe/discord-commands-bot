@@ -4,6 +4,7 @@ from nextcord.ext import commands, application_checks
 import os
 import sys
 import configparser
+from .cogs.utils import dependecies
 
 intents = nextcord.Intents.all()
 
@@ -14,6 +15,7 @@ admin_guild = int(config['settings']['admin_guild'])
 client = commands.Bot(command_prefix=config["bot"]["prefix"], owner_id=int(config["bot"]["owner_id"]), intents=intents)
 client.remove_command('help')
 
+dependecies.check_installed()
 
 @client.event
 async def on_ready():
@@ -30,12 +32,16 @@ async def on_disconnect():
 
 # WORKING WITH COGS
 
+@client.slash_command(guild_ids=(admin_guild,))
+async def cogs(interaction):
+	pass
+
 
 @application_checks.is_owner()
-@client.slash_command(guild_ids=(admin_guild,))
+@cogs.subcommand()
 async def load(interaction, extension):
 	"""
-	Loading extension
+	Loading extension.
 
 	Parameters
 	----------
@@ -54,10 +60,10 @@ async def load(interaction, extension):
 
 
 @application_checks.is_owner()
-@client.slash_command(guild_ids=(admin_guild,))
+@cogs.subcommand()
 async def unload(interaction, extension):
 	"""
-	Unloading extension
+	Unloading extension.
 
 	Parameters
 	----------
@@ -76,10 +82,10 @@ async def unload(interaction, extension):
 
 
 @application_checks.is_owner()
-@client.slash_command(guild_ids=(admin_guild,))
+@cogs.subcommand()
 async def reload(interaction, extension):
 	"""
-	Reloading extension
+	Reloading extension.
 
 	Parameters
 	----------

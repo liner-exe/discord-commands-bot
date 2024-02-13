@@ -1,14 +1,15 @@
-import asyncio
-
 import nextcord
 from nextcord.ext import commands
-import random
 
+import random
+import string
 import requests
 import datetime
 from datetime import timezone, timedelta
 import math
 import configparser
+
+from utils.decorators import is_weather_active
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -18,10 +19,13 @@ class Fun(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
-    async def dice(self, ctx):
+    @nextcord.slash_command()
+    async def dice(self, interaction):
+        """
+        Just a dice.
+        """
         player_dice, bot_dice = [random.randint(1, 6) for _ in range(2)]
-        print(player_dice, bot_dice)
+
         if player_dice > bot_dice:
             result = "You won!"
             color = nextcord.Color.green()
@@ -40,10 +44,13 @@ class Fun(commands.Cog):
                                                                      f"{result}"]),
                                 colour=color)
 
-        await ctx.send(embed=embed)
+        await interaction.send(embed=embed)
 
-    @commands.command(aliases=["slots"])
-    async def roll(self, ctx):
+    @nextcord.slash_command()
+    async def roll(self, interaction):
+        """
+        Slots.
+        """
         emojis = ["🍎", "🍊", "🍐", "🍋", "🍉", "🍇", "🍓", "🍒", "🔔", "💎", ":seven:"]
 
         a = random.choice(emojis)
@@ -64,103 +71,82 @@ class Fun(commands.Cog):
 
         slotmachine = nextcord.Embed(title="Slots", description=f"🎰 ({a}|{b}|{c})", colour=color)
         slotmachine.add_field(name=name, value=value)
-        await ctx.send(embed=slotmachine)
+        await interaction.send(embed=slotmachine)
 
-    @commands.command(aliases=["pass"])
-    async def password(self, ctx, *, lenght: int = None):
-        lower = 'abcdefghijklmnopqrstuvwxyz'
-        upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        digits = '0123456789'
-        punct = ';;<,>.?!@#$%'
-
-        symbols = lower + upper + digits + punct
-
-        if 8 <= lenght <= 74:
-            pass
-        elif lenght > 74:
-            return await ctx.send("Password must be contain 74 symbols or fewer.")
-        else:
-            return await ctx.send("Password must be contain 8 symbols or higher.")
-
-        password = ''.join(random.sample(symbols, lenght))
+    @nextcord.slash_command()
+    async def password(self, interaction, length: int = nextcord.SlashOption(min_value=8, 
+                                                                             max_value=74,
+                                                                             default=8)):
+        """
+        Random password generator.
+        """
+        password = ''.join(
+            random.sample(string.ascii_lowercase + string.ascii_uppercase + string.digits + string.punctuation,
+                          length))
         embed = nextcord.Embed(
             title='Password generator',
-            description=f'Your random password: ``{password}``',
-            timestamp=ctx.message.created_at,
+            description=f'Your random generated password: ``{password}``',
+            timestamp=interaction.created_at,
             colour=0x45fc03
         )
-        embed.add_field(name='Warning ⚠️', value='Password generator not recommended for use on guilds.')
-        await ctx.send(embed=embed)
+        await interaction.send(embed=embed, ephemeral=True)
 
-    @commands.command()
-    async def coin(self, ctx):
+    @nextcord.slash_command()
+    async def coin(self, interaction):
+        """
+        Heads or tails.
+        """
         array_coins = ['heads', 'tails']
         coin_flip = random.choice(array_coins)
 
         embed = nextcord.Embed(description=f"Coin tossed and **{coin_flip}** falls out.", colour=0xdf03fc)
-        await ctx.send(embed=embed)
+        await interaction.send(embed=embed)
 
-    @commands.command()
-    async def say(self, ctx, *, sentence):
+    @nextcord.slash_command()
+    async def say(self, interaction, sentence):
+        """
+        Say message as the bot.
+        """
         embed = nextcord.Embed(
             description=f'{sentence}',
         )
-        await ctx.send(embed=embed)
-        await ctx.message.delete()
+        await interaction.send(embed=embed)
+        await interaction.message.delete()
 
-    @commands.command()
-    async def reverse(self, ctx, *, sentence):
-        await ctx.send(f"{sentence[::-1]}")
+    @nextcord.slash_command()
+    async def reverse(self, interaction, sentence):
+        """
+        Reverse entered message.
+        """
+        await interaction.send(f"{sentence[::-1]}")
 
-    @commands.command()
-    async def random(self, ctx, first_num: int = 1, *, second_num: int = 10):
-        try:
-            embed = nextcord.Embed(description=f"Number in range **from {first_num} to {second_num}**")
-            embed.add_field(name="Result", value=f"{random.randint(first_num, second_num)}")
-            await ctx.send(embed=embed)
+    @nextcord.slash_command()
+    async def random(self, interaction,
+                 first_num: int = nextcord.SlashOption(name="minimum",
+                                                       description="Minimum number of the range "
+                                                                   "(0 if not specified)",
+                                                       min_value=0, default=0),
+                 second_num: int = nextcord.SlashOption(name="maximum",
+                                                        description="Maximum number of the range "
+                                                                    "(100 if not specified)",
+                                                        min_value=0, default=100)):
+        """
+        Random number within the specified range.
+        """
+        embed = nextcord.Embed(description=f"Random number in the range **from {first_num} to {second_num}**")
+        embed.add_field(name="Result", value=f"{random.randint(first_num, second_num)}")
+        await interaction.send(embed=embed)
 
-        except Exception as error:
-            print(error)
-
-    @commands.command()
-    async def guess(self, ctx):
-
-        await ctx.reply("Type the number from 1 to 5")
-
-        try:
-            number = await self.client.wait_for('message', check=lambda message: message.author == ctx.author,
-                                                timeout=7)
-            h_number = random.randint(1, 5)
-
-        except asyncio.TimeoutError:
-            await ctx.send("Time is out... Try again.")
-
-        else:
-            try:
-                if int(number.content) == h_number and 1 <= int(number.content) <= 5:
-                    color = nextcord.Color.green()
-                    result = f"**YOU RIGHT!**\n\nYour number: {number.content}\nHidden number: {h_number}"
-
-                elif int(number.content) != h_number and 1 <= int(number.content) <= 5:
-                    color = nextcord.Color.red()
-                    result = f"**YOU NOT RIGHT..**\n\n**Your number:** {number.content}\n**Hidden number:** {h_number}"
-
-                else:
-                    color = nextcord.Color.yellow()
-                    result = "Ooops! Error happens..."
-
-                embed = nextcord.Embed(title="Guees the number", description=result, colour=color)
-                await ctx.send(embed=embed)
-
-            except ValueError:
-                await ctx.send("I don`t get which you typed...")
-
-    @commands.command()
-    async def weather(self, ctx, *, a_city):
+    @is_weather_active()
+    @nextcord.slash_command()
+    async def weather(self, interaction, _city):
+        """
+        Get a weather forecast in certain city.
+        """
         try:
             ow_token = config["bot"]["openweather_token"]
             response = requests.get(
-                f'http://api.openweathermap.org/data/2.5/weather?q={a_city}&lang=ru&units=metric&appid={ow_token}')
+                f'http://api.openweathermap.org/data/2.5/weather?q={_city}&lang=ru&units=metric&appid={ow_token}')
             data = response.json()
 
             city = data["name"]
@@ -203,11 +189,11 @@ class Fun(commands.Cog):
             embed.add_field(name="Sunrise", value=f"{sunrise_timestamp}")
             embed.add_field(name="Sunset", value=f"{sunset_timestamp}")
 
-            await ctx.send(embed=embed)
+            await interaction.send(embed=embed)
 
         except Exception as err:
             print(err)
-            await ctx.send("Incorrect city.")
+            await interaction.send("Incorrect city.")
 
 
 def setup(client):
