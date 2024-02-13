@@ -1,10 +1,10 @@
 [bot]
-token             = OTk3NDA5NDAxNzAwODgwNDM0.Gi9B5T.QlOAlxMQQocFMfzsy6icmQeHSGhtCD6gspbxaI
-owner_id          = 923915325668487190
-prefix            = .
+token = 
+owner_id = 
+prefix = 
 
 [settings]
-admin_guild = 0
+admin_guild = 
 
 [weather]
-openweather_token = f3923cf43434cff434343
+openweather_token = 
