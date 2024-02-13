@@ -15,7 +15,7 @@ class Admin(commands.Cog):
     @nextcord.slash_command()
     async def change_nickname(self, interaction, name: str = nextcord.SlashOption(default=None)):
         """
-        Change nickname of certain user.
+        [ADMIN] Change bot nickname.
         """
         await interaction.guild.me.edit(nick=name)
 
@@ -29,7 +29,7 @@ class Admin(commands.Cog):
     @nextcord.slash_command(guild_ids=(admin_guilds,))
     async def change_username(self, interaction, name: str = nextcord.SlashOption(default=None)):
         """
-        Change bot nickname.
+        [ADMIN] Change bot username.
         """
         await self.client.user.edit(username=name)
         await interaction.send(f"Username of bot has changed on **{name}**")
@@ -38,7 +38,7 @@ class Admin(commands.Cog):
     @nextcord.slash_command()
     async def direct_message(self, interaction, user: nextcord.User, message: str):
         """
-        Send direct message to selected user.
+        [ADMIN] Send direct message to selected user.
         """
         try:
             await user.send(message)
@@ -50,6 +50,9 @@ class Admin(commands.Cog):
     @application_checks.is_owner()
     @nextcord.slash_command(guild_ids=(admin_guilds,))
     async def shutdown(self, interaction):
+        """
+        [ADMIN] Turns off the bot.
+        """
         print("Bot is shutting down")
         await interaction.send("Bot is shutting down")
         await self.client.close()
@@ -57,6 +60,9 @@ class Admin(commands.Cog):
     @application_checks.is_owner()
     @nextcord.slash_command(guild_ids=(admin_guilds,))
     async def eval(self, interaction, content):
+        """
+        [ADMIN] Evaluates a Python expression.
+        """
         try:
             embed = nextcord.Embed(description=content)
             embed.add_field(name="Result", value=eval(content))
