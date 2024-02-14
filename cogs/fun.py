@@ -111,7 +111,6 @@ class Fun(commands.Cog):
             description=f'{sentence}',
         )
         await interaction.send(embed=embed)
-        await interaction.message.delete()
 
     @nextcord.slash_command()
     async def reverse(self, interaction, sentence):
