@@ -19,7 +19,7 @@ dependecies.check_installed()
 
 if github.check_for_updates(version.get()):
 	latest = github.get_latest()
-	print(f"[GITHUB]: New update avaliable: v{latest}")
+	print(f"[GITHUB]: New update available: v{latest}")
 	print(f"CHANGELOG:\n-----------\n{github.changelog()}-----------")
 
 @client.event
