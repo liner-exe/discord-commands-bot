@@ -49,6 +49,14 @@ class Moderation(commands.Cog):
 	async def ban(self, interaction, member: Member, reason: str = nextcord.SlashOption(default="No reason.")):
 		"""
 		Ban a certain user.
+
+		Parameters
+		----------
+		interaction: Interaction
+		member: int
+			Choose an user.
+		reason: str
+			Type a reason.
 		"""
 		embed = nextcord.Embed(title='Ban', colour=nextcord.Colors.light_red)
 
@@ -73,7 +81,18 @@ class Moderation(commands.Cog):
 
 	@application_checks.has_permissions(administrator=True)
 	@nextcord.slash_command()
-	async def unban(self, interaction, member, reason: str = nextcord.SlashOption(default="No reason.")):
+	async def unban(self, interaction, member: nextcord.Member, reason: str = nextcord.SlashOption(default="No reason.")):
+		"""
+		Ban a certain user.
+
+		Parameters
+		----------
+		interaction: Interaction
+		member: nextcord.Member
+			Choose an user.
+		reason: str
+			Type a reason.
+		"""
 		banned_users = await interaction.guild.fetch_ban(user=member)
 
 		embed = nextcord.Embed(title='Unban')
@@ -109,6 +128,17 @@ class Moderation(commands.Cog):
 	@application_checks.has_permissions(kick_members=True)
 	@nextcord.slash_command()
 	async def kick(self, interaction, member: nextcord.Member, reason: str = nextcord.SlashOption(default="No reason.")):
+		"""
+		Kick an user.
+
+		Parameters
+		----------
+		interaction: Interaction
+		member: nextcord.Member
+			Choose an user.
+		reason: str
+			Type a reason.
+		"""
 		embed = nextcord.Embed(title='Kick')
 
 		if interaction.user.id == member.id:
@@ -136,6 +166,15 @@ class Moderation(commands.Cog):
 	@application_checks.has_permissions(manage_messages=True)
 	@nextcord.slash_command()
 	async def clear(self, interaction, amount: int = nextcord.SlashOption(min_value=1, max_value=100)):
+		"""
+		Kick an user.
+
+		Parameters
+		----------
+		interaction: Interaction
+		member: int
+			Type a count of messages to delete.
+		"""
 		deleted = await interaction.channel.purge(limit=amount)
 
 		msg = await interaction.send(f'Messages deleted: **{len(deleted)}**')
