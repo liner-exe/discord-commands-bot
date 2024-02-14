@@ -91,7 +91,7 @@ pip install -r requirements.txt
 ```sh
 git clone https://github.com/r-liner/discord-commands-bot
 ```
-3. Launch `setup.py` and complete setup procces.
+3. Launch `setup.py` and complete setup process.
 4. Done. Now you can launch the bot.
 
 ## Launch
