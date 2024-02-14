@@ -1,0 +1,24 @@
+# Python cache / Optimized files
+__pycache__/
+*.py[cod]
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+
+# PyCharm
+.idea/
+
+# Vs Code
+.vscode/
+
+# Config files / Databases
+*.ini
+*.db
+
+# Logs
+*.log
+logs/
