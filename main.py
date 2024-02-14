@@ -4,7 +4,7 @@ from nextcord.ext import commands, application_checks
 import os
 import sys
 import configparser
-from cogs.utils import dependecies
+from cogs.utils import dependecies, github, version
 
 intents = nextcord.Intents.all()
 
@@ -16,6 +16,11 @@ client = commands.Bot(command_prefix=config["bot"]["prefix"], owner_id=int(confi
 client.remove_command('help')
 
 dependecies.check_installed()
+
+if github.check_for_updates(version.get()):
+	latest = github.get_latest()
+	print(f"[GITHUB]: New update avaliable: v{latest}")
+	print(f"CHANGELOG:\n-----------\n{github.changelog()}-----------")
 
 @client.event
 async def on_ready():
