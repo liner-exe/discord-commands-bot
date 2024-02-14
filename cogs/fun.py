@@ -9,7 +9,7 @@ from datetime import timezone, timedelta
 import math
 import configparser
 
-from utils.decorators import is_weather_active
+from .utils import is_weather_active
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -137,9 +137,9 @@ class Fun(commands.Cog):
         embed.add_field(name="Result", value=f"{random.randint(first_num, second_num)}")
         await interaction.send(embed=embed)
 
-    @is_weather_active()
+    @is_weather_active
     @nextcord.slash_command()
-    async def weather(self, interaction, _city):
+    async def weather(self, interaction, _city = nextcord.SlashOption(name="city")):
         """
         Get a weather forecast in certain city.
         """
