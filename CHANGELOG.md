@@ -1,5 +1,54 @@
 # Discord Commands Bot - Changelog
 
+## [v0.8.0](https://github.com/r-liner/discord-commands-bot/releases/tag/v0.8.0) (2024-02-14)
+
+[Full Changelog](https://github.com/r-liner/discord-commands-bot/compare/v0.7.8...v0.8.0)
+
+### Features
+- Slash commands migration!
+- **main.py:** added dependency checker, added update notifier
+- **cogs/fun.py@Fun:weather:** command is inactive if no openweather token
+
+### New Files
+- cogs/utils/
+    - __init\__.py
+    - decorators.py
+    - dependecies.py
+    - github.py
+    - version.py
+- .gitignore
+
+### Documentation
+- **cogs/\*.py:** added docstrings to all functions
+- **version.txt:** version bumped to 0.8.0
+- **README.md:** fixed typo
+
+### Chore
+- **main.py:** fixed typo
+- **requirements.txt:** updated dependencies
+
+## [v0.7.8](https://github.com/r-liner/discord-commands-bot/releases/tag/v0.7.8) (2024-02-13)
+
+[Full Changelog](https://github.com/r-liner/discord-commands-bot/compare/v0.7.7...v0.7.8)
+
+### Documentation
+- **README.md:** fixed typos. Added link to changelog
+- **config.yml:** added emoji to `name`
+- **version.txt:** version bumber to 0.7.8
+- **CHANGELOG.md:** added v0.7.7 release notes, changelog adjusted
+
+### Tweak
+- **start_win.bat:** compatibility with new Python version. Minor correction
+
+### Chore
+- **config.ini.sample:** removed useless info
+
+### Bugfix
+- **main.py:** moved universal exception handling to the end of the try-except block
+
+
+
+
 ## [v0.7.7](https://github.com/r-liner/discord-commands-bot/releases/tag/v0.7.7) (2024-02-12)
 
 [Full Changelog](https://github.com/r-liner/discord-commands-bot/compare/v0.7.6...v0.7.7)
