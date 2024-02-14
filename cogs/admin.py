@@ -13,32 +13,52 @@ class Admin(commands.Cog):
 
     @application_checks.is_owner()
     @nextcord.slash_command()
-    async def change_nickname(self, interaction, name: str = nextcord.SlashOption(default=None)):
+    async def change_nickname(self, interaction, nickname: str = nextcord.SlashOption(default=None, required=False)):
         """
         [ADMIN] Change bot nickname.
+
+        Parameters
+        ----------
+        interaction: Interaction
+        nickname: str
+            Enter a new bot nickname.
         """
-        await interaction.guild.me.edit(nick=name)
+        await interaction.guild.me.edit(nick=nickname)
 
-        if name:
-            return await interaction.send(f"Display name of bot has changed on **{name}**")
+        if nickname:
+            return await interaction.send(f"Display name of bot has changed on **{nickname}**")
 
-        elif name is None:
+        elif nickname is None:
             return await interaction.send(f"Nickname has cleared")
 
     @application_checks.is_owner()
     @nextcord.slash_command(guild_ids=(admin_guilds,))
-    async def change_username(self, interaction, name: str = nextcord.SlashOption(default=None)):
+    async def change_username(self, interaction, username: str = nextcord.SlashOption(default=None, required=False)):
         """
         [ADMIN] Change bot username.
+
+        Parameters
+        ----------
+        interaction: Interaction
+        username: str
+            Enter a new bot username.
         """
-        await self.client.user.edit(username=name)
-        await interaction.send(f"Username of bot has changed on **{name}**")
+        await self.client.user.edit(username=username)
+        await interaction.send(f"Username of bot has changed on **{username}**")
 
     @application_checks.is_owner()
     @nextcord.slash_command()
     async def direct_message(self, interaction, user: nextcord.User, message: str):
         """
         [ADMIN] Send direct message to selected user.
+
+        Parameters
+        ----------
+        interaction: Interaction
+        user: nextcord.User
+            Choose an user to dm.
+        message: str
+            Enter a message to send.
         """
         try:
             await user.send(message)
@@ -59,13 +79,19 @@ class Admin(commands.Cog):
 
     @application_checks.is_owner()
     @nextcord.slash_command(guild_ids=(admin_guilds,))
-    async def eval(self, interaction, content):
+    async def eval(self, interaction, expression: str):
         """
         [ADMIN] Evaluates a Python expression.
+
+        Parameters
+        ----------
+        interaction: Interaction
+        expression: str
+            Enter an expression to evaluate.
         """
         try:
-            embed = nextcord.Embed(description=content)
-            embed.add_field(name="Result", value=eval(content))
+            embed = nextcord.Embed(description=expression)
+            embed.add_field(name="Result", value=eval(expression))
             await interaction.send(embed=embed)
 
         except SyntaxError:

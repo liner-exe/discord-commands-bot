@@ -22,7 +22,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_application_command_error(self, interaction, error: Exception):
-        embed = nextcord.Embed(title="Error", colour=nextcord.Colors.light_red)
+        embed = nextcord.Embed(title="Error", colour=nextcord.Color.red)
 
         if isinstance(error, application_checks.errors.ApplicationMissingPermissions):
             embed.description = "You do not have permissions to perform this action."

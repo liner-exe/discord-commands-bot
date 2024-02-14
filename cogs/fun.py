@@ -9,7 +9,7 @@ from datetime import timezone, timedelta
 import math
 import configparser
 
-from utils.decorators import is_weather_active
+from .utils import is_weather_active
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -79,6 +79,12 @@ class Fun(commands.Cog):
                                                                              default=8)):
         """
         Random password generator.
+
+        Parameters
+        ----------
+        interaction: Interaction
+        length: int
+            Enter password length.
         """
         password = ''.join(
             random.sample(string.ascii_lowercase + string.ascii_uppercase + string.digits + string.punctuation,
@@ -103,22 +109,33 @@ class Fun(commands.Cog):
         await interaction.send(embed=embed)
 
     @nextcord.slash_command()
-    async def say(self, interaction, sentence):
+    async def say(self, interaction, text: str):
         """
         Say message as the bot.
+
+        Parameters
+        ----------
+        interaction: Interaction
+        text: str
+            Enter a text to say.
         """
         embed = nextcord.Embed(
-            description=f'{sentence}',
+            description=f'{text}',
         )
         await interaction.send(embed=embed)
-        await interaction.message.delete()
 
     @nextcord.slash_command()
-    async def reverse(self, interaction, sentence):
+    async def reverse(self, interaction, text: str):
         """
         Reverse entered message.
+
+        Parameters
+        ----------
+        interaction: Interaction
+        text: str
+            Enter a text to reverse.
         """
-        await interaction.send(f"{sentence[::-1]}")
+        await interaction.send(f"{text[::-1]}")
 
     @nextcord.slash_command()
     async def random(self, interaction,
@@ -137,11 +154,17 @@ class Fun(commands.Cog):
         embed.add_field(name="Result", value=f"{random.randint(first_num, second_num)}")
         await interaction.send(embed=embed)
 
-    @is_weather_active()
+    @is_weather_active
     @nextcord.slash_command()
-    async def weather(self, interaction, _city):
+    async def weather(self, interaction, _city = nextcord.SlashOption(name="city")):
         """
         Get a weather forecast in certain city.
+
+        Parameters
+        ----------
+        interaction: Interaction
+        _city: str
+            Enter a city to get weather forecast.
         """
         try:
             ow_token = config["bot"]["openweather_token"]
