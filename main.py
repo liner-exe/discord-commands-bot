@@ -4,7 +4,7 @@ from nextcord.ext import commands, application_checks
 import os
 import sys
 import configparser
-from .cogs.utils import dependecies
+from cogs.utils import dependecies
 
 intents = nextcord.Intents.all()
 
