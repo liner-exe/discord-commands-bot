@@ -9,6 +9,15 @@ class Discord(commands.Cog):
     @application_checks.guild_only()
     @nextcord.slash_command()
     async def avatar(self, interaction, user: nextcord.Member = nextcord.SlashOption(default=None)):
+        """
+        Get avatar of certain user.
+
+        Parameters
+        ----------
+        interaction: Interaction
+        user: nextcord.Member
+            Choose an user.
+        """
         user = user or interaction.user
 
         if user.avatar or user.guild_avatar:
