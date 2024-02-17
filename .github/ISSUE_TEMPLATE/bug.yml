@@ -1,13 +1,13 @@
 name: 🐛 Bug Report
 description: Create a bug report
 labels:
-  - 'bug'
+  - 'Bug :bug:'
 body:
   - type: markdown
     attributes:
-      value: >
+      value: |
         Thanks for taking the time to fill out this bug report!
-        ⚠️ If you do not use this template, we will simply close your issue.
+        ⚠️ If you do not use this template, we will simply close your issue. ⚠️
   - type: textarea
     id: summary
     attributes:
@@ -74,5 +74,13 @@ body:
       label: Nextcord version
       description: >
         Specify the version of Nextcord you are using.
+    validations:
+      required: true
+  - type: input
+    id: dcb-ver
+    attributes:
+      label: Discord Commands Bot version
+      description: >
+        Specify the version of Discord Commands Bot you are using.
     validations:
       required: true

@@ -108,6 +108,23 @@ async def reload(interaction, extension):
 		print(error)
 		await interaction.send("Incorrect name or not able to reload")
 
+@application_checks.is_owner()
+@cogs.subcommand()
+async def list(interaction):
+	"""
+	Get extensions list.
+	"""
+	embed = nextcord.Embed(title="Cogs list", color=nextcord.Color.blue())
+
+	description = []
+	for filename in os.listdir("./cogs"):
+		if filename.endswith(".py"):
+			description.append(f"- {filename[:-3]}")
+	
+	embed.description = "\n".join(description)
+	await interaction.send(embed=embed)
+
+
 for filename in os.listdir("./cogs"):
 	if filename.endswith(".py"):
 		client.load_extension(f"cogs.{filename[:-3]}")
