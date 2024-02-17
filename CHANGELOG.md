@@ -11,6 +11,10 @@
 - **cogs/discord.py:** Added docstring to `/avatar` command
 - **README.md:** Roadmap updated
 
+### GitHub
+- **bug.yml:** Fixed indent, added `Discord Commands Bot` version input
+- **feature.yml:** Added feature request template
+
 ## [v0.8.0](https://github.com/r-liner/discord-commands-bot/releases/tag/v0.8.0) (2024-02-14)
 
 [Full Changelog](https://github.com/r-liner/discord-commands-bot/compare/v0.7.8...v0.8.0)
