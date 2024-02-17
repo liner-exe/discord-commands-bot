@@ -102,8 +102,9 @@ During run the bot you must see:
 * Count of bot servers.
 
 ## Roadmap
-- Feb - Migration to slash commands.
-- March - Code simplify.
+**Q2:**
+- Code simplify.
+- Add i18n
 
 ## Changelog
 You can find it [here](https://github.com/r-liner/discord-commands-bot/blob/master/CHANGELOG.md).
