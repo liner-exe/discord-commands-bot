@@ -5,7 +5,7 @@ labels:
 body:
   - type: markdown
     attributes:
-      value: >
+      value: |
         Thanks for taking the time to fill out this bug report!
         ⚠️ If you do not use this template, we will simply close your issue. ⚠️
   - type: textarea
