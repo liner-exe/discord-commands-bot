@@ -1,5 +1,16 @@
 # Discord Commands Bot - Changelog
 
+## [v0.8.1](https://github.com/r-liner/discord-commands-bot/releases/tag/v0.8.1) (2024-02-17)
+
+[Full Changelog](https://github.com/r-liner/discord-commands-bot/compare/v0.8.0...v0.8.1)
+
+### Features
+- Added `/cogs list` command
+
+### Documentation
+- **cogs/discord.py:** Added docstring to `/avatar` command
+- **README.md:** Roadmap updated
+
 ## [v0.8.0](https://github.com/r-liner/discord-commands-bot/releases/tag/v0.8.0) (2024-02-14)
 
 [Full Changelog](https://github.com/r-liner/discord-commands-bot/compare/v0.7.8...v0.8.0)
