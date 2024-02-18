@@ -2,6 +2,7 @@ name: 🐛 Bug Report
 description: Create a bug report
 labels:
   - 'Bug :bug:'
+  - 'Needs Investigation :mag:'
 body:
   - type: markdown
     attributes:
