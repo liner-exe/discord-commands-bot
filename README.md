@@ -112,7 +112,9 @@ You can find it [here](https://github.com/r-liner/discord-commands-bot/blob/mast
 ## Support
 ❓ If you have a **question** ask it [here](https://github.com/r-liner/discord-commands-bot/issues).
 
-🐛 If you found a **bug** have a look at the [issue list](https://github.com/r-liner/discord-commands-bot/issues/new/choose) before you [create a new issue](https://github.com/r-liner/discord-commands-bot/issues/new/choose). Please provide as much information as possible to help us understand and reproduce your issue.
+🐛 If you found a **bug** have a look at the [issue list](https://github.com/r-liner/discord-commands-bot/issues/) before you [create a new issue](https://github.com/r-liner/discord-commands-bot/issues/new/choose). Please provide as much information as possible to help us understand and reproduce your issue.
+
+✨ If you want to request new feature have a look at the [issue list](https://github.com/r-liner/discord-commands-bot/issues/) before you [create it](https://github.com/r-liner/discord-commands-bot/issues/new/choose).
 
 ## Contribution
 If you would like to contribute to this project, fork repository, add your changes and then create pull request.
