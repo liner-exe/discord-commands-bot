@@ -2,6 +2,7 @@ name: ✨ Feature request
 description: Create a feature request
 labels:
   - 'Feature :sparkles:'
+  - 'Needs Investigation :mag:'
 body:
   - type: markdown
     attributes:
