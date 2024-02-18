@@ -1,5 +1,14 @@
 # Discord Commands Bot - Changelog
 
+## [v0.8.2](https://github.com/r-liner/discord-commands-bot/releases/tag/v0.8.2) (2024-02-18)
+
+[Full Changelog](https://github.com/r-liner/discord-commands-bot/compare/v0.8.1...v0.8.2)
+
+### GitHub
+- **bug.yml:** Labels updated
+- **feature.yml:** Labels updated
+- **README.md:** Adjusted
+
 ## [v0.8.1](https://github.com/r-liner/discord-commands-bot/releases/tag/v0.8.1) (2024-02-17)
 
 [Full Changelog](https://github.com/r-liner/discord-commands-bot/compare/v0.8.0...v0.8.1)
