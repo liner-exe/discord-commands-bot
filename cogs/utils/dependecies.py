@@ -1,4 +1,5 @@
 import subprocess
+import sys
 
 def check_installed() -> None:
     """
@@ -16,5 +17,5 @@ def check_installed() -> None:
     except ImportError as e:
         print(f"Some of dependencies are missing: {e}")
         print("Installing missing dependecies...")
-        subprocess.call(["pip", "install", "-r", "requirements.txt"])
+        subprocess.call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
         print("All dependecies installed succesfully!")
