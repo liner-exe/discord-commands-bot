@@ -1,5 +1,23 @@
 # Discord Commands Bot - Changelog
 
+## [v0.8.3](https://github.com/r-liner/discord-commands-bot/releases/tag/v0.8.3) (2024-04-07)
+
+[Full Changelog](https://github.com/r-liner/discord-commands-bot/compare/v0.8.2...v0.8.3)
+
+### Features
+- Added `/random color` command
+- Made `/random` void
+- Made `number` as `random` subcommand
+- **cogs/utils/dependencies.py:** Changed dependencies installation principle
+
+### Bug Fixes
+- **cogs/utils/decorators.py:** Config reading transfered to `is_weather_active` (method)
+
+### New Files
+- **cogs/utils/urls.py:** New method `url_encode`
+- **cogs/utils/colors.py:** New methods `generate_random_color`, `hex_to_rgb`, `rgb_to_hex`, `rgb_to_hex_color`
+
+
 ## [v0.8.2](https://github.com/r-liner/discord-commands-bot/releases/tag/v0.8.2) (2024-02-18)
 
 [Full Changelog](https://github.com/r-liner/discord-commands-bot/compare/v0.8.1...v0.8.2)
