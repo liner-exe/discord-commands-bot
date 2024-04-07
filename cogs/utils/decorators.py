@@ -1,8 +1,5 @@
 import configparser
 
-config = configparser.ConfigParser()
-config.read("config.ini")
-
 def is_weather_active(func):
     """
     Decorator that checks if an API token for OpenWeather is configured in the 
@@ -15,6 +12,9 @@ def is_weather_active(func):
     Returns:
         - func if the OpenWeather API token is configured, None otherwise.
     """
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+
     if config["weather"]["openweather_token"] != "":
         return func
     else:
