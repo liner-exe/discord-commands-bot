@@ -9,7 +9,12 @@ from datetime import timezone, timedelta
 import math
 import configparser
 
-from .utils import is_weather_active
+from .utils import (
+    is_weather_active,
+    generate_random_color,
+    rgb_to_hex, rgb_to_hex_color,
+    url_encode
+)
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -138,7 +143,11 @@ class Fun(commands.Cog):
         await interaction.send(f"{text[::-1]}")
 
     @nextcord.slash_command()
-    async def random(self, interaction,
+    async def random(self, interaction):
+        ...
+
+    @random.subcommand()
+    async def number(self, interaction,
                  first_num: int = nextcord.SlashOption(name="minimum",
                                                        description="Minimum number of the range "
                                                                    "(0 if not specified)",
@@ -152,6 +161,21 @@ class Fun(commands.Cog):
         """
         embed = nextcord.Embed(description=f"Random number in the range **from {first_num} to {second_num}**")
         embed.add_field(name="Result", value=f"{random.randint(first_num, second_num)}")
+        await interaction.send(embed=embed)
+
+    @random.subcommand()
+    async def color(self, interaction):
+        """
+        Random color (hex & rgb).
+        """
+        color = generate_random_color()
+        response = requests.get(f"https://some-random-api.com/canvas/colorviewer?"
+                                f"{url_encode({'hex': rgb_to_hex(color)})}")
+        embed = nextcord.Embed(title="Random color", colour=rgb_to_hex_color(color))
+        embed.set_thumbnail(response.url)
+        embed.add_field(name="HEX", value=f"#{rgb_to_hex(color)}")
+        embed.add_field(name="RGB", value=f"{color[0]}, {color[1]}, {color[2]}")
+
         await interaction.send(embed=embed)
 
     @is_weather_active
