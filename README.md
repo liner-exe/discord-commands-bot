@@ -1,5 +1,5 @@
 # Discord Commands Bot [![Code Factor](https://www.codefactor.io/repository/github/r-liner/discord-commands-bot/badge)](https://www.codefactor.io/repository/github/r-liner/discord-commands-bot)
-![GitHub Release](https://img.shields.io/github/v/release/r-liner/discord-commands-bot?style=for-the-badge&logo=github&color=efa94a)
+![GitHub Release](https://img.shields.io/badge/release-v0.8.3-blue.svg?logo=github&logoColor=ffffff&style=for-the-badge&color=efa94a)
 ![GitHub issues](https://img.shields.io/github/issues-raw/r-liner/discord-commands-bot?style=for-the-badge)
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg?logo=python&logoColor=ffffff&style=for-the-badge)](https://www.python.org/downloads/)
 [![Nextcord Version](https://img.shields.io/badge/nextcord-2.4.2+-blue.svg?logo=pypi&logoColor=ffffff&style=for-the-badge)](https://pypi.org/project/nextcord/)
