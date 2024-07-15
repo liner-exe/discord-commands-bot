@@ -8,7 +8,6 @@ def check_installed() -> None:
     try:
         print("Checking installation of dependecies...")
         import nextcord
-        import asyncio
         import typing_extensions
         import psutil
         import requests
