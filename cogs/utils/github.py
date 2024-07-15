@@ -24,7 +24,9 @@ def changelog():
 
     response.raise_for_status()
 
-    if not response.get("body"):
+    data = response.json()
+
+    if not data.get("body_text"):
         return "" # Raise there error if needed
 
-    return response["body"]
+    return data["body_text"]
