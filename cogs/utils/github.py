@@ -18,7 +18,7 @@ def changelog():
     }
 
     response = requests.get(
-        f"https://api.github.com/repos/liner-exe/discord-commands-bot/releases/latest",
+        "https://api.github.com/repos/liner-exe/discord-commands-bot/releases/latest",
         headers=headers,
     )
 
