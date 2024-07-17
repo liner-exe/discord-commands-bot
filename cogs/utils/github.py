@@ -1,5 +1,4 @@
 import requests
-from bs4 import BeautifulSoup
 
 def get_latest():
     response = requests.get("https://raw.githubusercontent.com/r-liner/discord-commands-bot/master/version.txt")
@@ -13,9 +12,21 @@ def check_for_updates(version):
     return False
 
 def changelog():
-    latest = get_latest()
-    response = requests.get(f"https://github.com/r-liner/discord-commands-bot/releases/tag/v{latest}")
-    soup = BeautifulSoup(response.text, "html.parser")
-    _changelog = soup.find("div", class_="markdown-body my-3").get_text()
+    headers = {
+        "Accept": "application/vnd.github.v3.text+json",
+    }
 
-    return _changelog
+    response = requests.get(
+        "https://api.github.com/repos/liner-exe/discord-commands-bot/releases/latest",
+        headers=headers,
+    )
+
+    if not response.ok:
+        return ""
+
+    data = response.json()
+
+    if not data.get("body_text"):
+        return "" # Raise there error if needed
+
+    return data["body_text"]
