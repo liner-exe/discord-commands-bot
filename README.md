@@ -31,7 +31,7 @@ An another yet Discord multipurposal bot written in Python.
 - Slash commands partial-ready
 - Easy installation, setup
 - Use the same bot instance on multiple guilds
-- Regurarly updates
+- Regularly updates
 
 ## Installation
 ### Prerequisites
