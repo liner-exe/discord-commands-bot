@@ -102,7 +102,7 @@ During run the bot you must see:
 * Count of bot servers.
 
 ## Roadmap
-**Q2:**
+**Q4 2024 - Q1 2025:**
 - Code simplify.
 - Add i18n
 
