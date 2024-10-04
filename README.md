@@ -1,12 +1,12 @@
 # Discord Commands Bot [![Code Factor](https://www.codefactor.io/repository/github/r-liner/discord-commands-bot/badge)](https://www.codefactor.io/repository/github/r-liner/discord-commands-bot)
-![GitHub Release](https://img.shields.io/badge/release-v0.8.3-blue.svg?logo=github&logoColor=ffffff&style=for-the-badge&color=efa94a)
+![GitHub Release](https://img.shields.io/badge/release-v0.8.4-blue.svg?logo=github&logoColor=ffffff&style=for-the-badge&color=efa94a)
 ![GitHub issues](https://img.shields.io/github/issues-raw/r-liner/discord-commands-bot?style=for-the-badge)
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg?logo=python&logoColor=ffffff&style=for-the-badge)](https://www.python.org/downloads/)
 [![Nextcord Version](https://img.shields.io/badge/nextcord-2.4.2+-blue.svg?logo=pypi&logoColor=ffffff&style=for-the-badge)](https://pypi.org/project/nextcord/)
 ![GitHub License](https://img.shields.io/github/license/r-liner/discord-commands-bot?style=for-the-badge&color=blue)
 
 # Description
-An another yet Discord multipurposal bot written in Python.
+An yet another Discord multipurposal bot written in Python.
 
 ## Table of Contents
 - [Discord Commands Bot](#discord-commands-bot-code-factor)
@@ -102,7 +102,7 @@ During run the bot you must see:
 * Count of bot servers.
 
 ## Roadmap
-**Q2:**
+**Q4 2024 - Q1 2025:**
 - Code simplify.
 - Add i18n
 

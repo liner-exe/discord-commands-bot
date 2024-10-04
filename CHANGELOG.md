@@ -1,5 +1,19 @@
 # Discord Commands Bot - Changelog
 
+## [v0.8.4](https://github.com/r-liner/discord-commands-bot/releases/tag/v0.8.4) (2024-10-04)
+
+[Full Changelog](https://github.com/r-liner/discord-commands-bot/compare/v0.8.3...v0.8.4)
+
+### Features
+- **feat:** changed fetching changelog principle (#25 by @Nazar1ky)
+
+### Dependencies
+- **deps:** dependencies updated (#27 by @Nazar1ky)
+- **deps:** dependencies updated (#28 by @Nazar1ky)
+
+### Docs
+- **README.md:** fixed a typo (#26 by @Nazar1ky)
+
 ## [v0.8.3](https://github.com/r-liner/discord-commands-bot/releases/tag/v0.8.3) (2024-04-07)
 
 [Full Changelog](https://github.com/r-liner/discord-commands-bot/compare/v0.8.2...v0.8.3)
