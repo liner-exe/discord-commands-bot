@@ -6,7 +6,7 @@
 ![GitHub License](https://img.shields.io/github/license/r-liner/discord-commands-bot?style=for-the-badge&color=blue)
 
 # Description
-An another yet Discord multipurposal bot written in Python.
+An yet another Discord multipurposal bot written in Python.
 
 ## Table of Contents
 - [Discord Commands Bot](#discord-commands-bot-code-factor)
