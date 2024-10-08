@@ -1,4 +1,4 @@
-# Discord Commands Bot [![Code Factor](https://www.codefactor.io/repository/github/r-liner/discord-commands-bot/badge)](https://www.codefactor.io/repository/github/r-liner/discord-commands-bot)
+# Discord Commands Bot [![CodeFactor](https://www.codefactor.io/repository/github/liner-exe/discord-commands-bot/badge)](https://www.codefactor.io/repository/github/liner-exe/discord-commands-bot)
 ![GitHub Release](https://img.shields.io/badge/release-v1.0.0-blue.svg?logo=github&logoColor=ffffff&style=for-the-badge&color=efa94a)
 ![GitHub issues](https://img.shields.io/github/issues-raw/r-liner/discord-commands-bot?style=for-the-badge)
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg?logo=python&logoColor=ffffff&style=for-the-badge)](https://www.python.org/downloads/)
