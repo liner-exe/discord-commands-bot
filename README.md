@@ -1,3 +1,5 @@
+# DEVELOP OF THE BOT STOPPED DUE RUSSIAN FEDERATION ACTIONS (BAN OF DISCORD)
+
 # Discord Commands Bot [![CodeFactor](https://www.codefactor.io/repository/github/liner-exe/discord-commands-bot/badge)](https://www.codefactor.io/repository/github/liner-exe/discord-commands-bot)
 ![GitHub Release](https://img.shields.io/badge/release-v0.8.4-blue.svg?logo=github&logoColor=ffffff&style=for-the-badge&color=efa94a)
 ![GitHub issues](https://img.shields.io/github/issues-raw/r-liner/discord-commands-bot?style=for-the-badge)
