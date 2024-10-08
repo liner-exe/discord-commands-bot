@@ -1,152 +1,130 @@
-import nextcord
-import nextcord.errors
-from nextcord.ext import commands, application_checks
-import os
-import sys
-import configparser
+from logging import Logger
+
+import disnake
+from disnake.ext import commands
+
+import os, platform, sys, logging
+import json
+
 from cogs.utils import dependecies, github, version
 
-intents = nextcord.Intents.all()
+PATH = os.path.dirname(os.path.realpath(__file__))
 
-config = configparser.ConfigParser()
-config.read("config.ini")
-admin_guild = int(config['settings']['admin_guild'])
+extensions = [
+    "cogs.useful",
+    "cogs.fun"
+]
 
-client = commands.Bot(command_prefix=config["bot"]["prefix"], owner_id=int(config["bot"]["owner_id"]), intents=intents)
-client.remove_command('help')
+with open(f"{PATH}/config.json", "r", encoding="utf-8") as file:
+    config = json.load(file)
 
+OWNER_IDS = config["bot"]["owners"]
+ADMIN_GUILDS = config["bot"]["admin_guilds"]
+
+
+class LoggingFormatter(logging.Formatter):
+    black = "\x1b[30b"
+    red = "\x1b[31m"
+    green = "\x1b[32m"
+    yellow = "\x1b[33m"
+    blue = "\x1b[34m"
+    gray = "\x1b[38m"
+    reset = "\x1b[0m"
+    bold = "\x1b[1m"
+
+    COLORS = {
+        logging.DEBUG: gray + bold,
+        logging.INFO: blue + bold,
+        logging.WARNING: yellow + bold,
+        logging.ERROR: red + bold,
+        logging.CRITICAL: red + bold
+    }
+
+    def format(self, record):
+        log_color = self.COLORS[record.levelno]
+        format = "(black){asctime}(reset) (levelcolor){levelname:<8}(reset) (gray)[{filename}](reset) (green){name}(reset) {message}"
+        format = format.replace("(black)", self.black + self.bold)
+        format = format.replace("(reset)", self.reset)
+        format = format.replace("(levelcolor)", log_color)
+        format = format.replace("(green)", self.green + self.green)
+        format = format.replace("(gray)", self.gray)
+        formatter = logging.Formatter(format, "%Y-%m-%d %H:%M:%S", style="{")
+        return formatter.format(record)
+
+
+def init_logger(logger_name: str) -> Logger:
+    _logger = logging.getLogger(logger_name)
+    _logger.setLevel(logging.INFO)
+
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(LoggingFormatter())
+
+    _logger.addHandler(console_handler)
+
+    print(f"Logger {logger_name} was initialized sucessfully.")
+    return _logger
+
+
+logger = init_logger("bot")
 dependecies.check_installed()
 
-if github.check_for_updates(version.get()):
-	latest = github.get_latest()
-	print(f"[GITHUB]: New update available: v{latest}")
-	print(f"CHANGELOG:\n-----------\n{github.changelog()}-----------")
-
-@client.event
-async def on_ready():
-	await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching, name="bot status"))
-	print("Logged in as {0.user}.".format(client))
-	print("Bot is using on {0} servers!".format(len(client.guilds)))
+if github.check_for_updates(version=version.get(path_to_version=PATH)):
+    latest = github.get_latest()
+    logger.info(f"[GITHUB]: New update available: v{latest}")
+    logger.info(f"\nCHANGELOG:\n-----------\n{github.changelog()}-----------")
 
 
-@client.event
-async def on_disconnect():
-	if client.is_closed():
-		await client.connect()
+class DiscordBot(commands.InteractionBot):
+    def __init__(self) -> None:
+        super().__init__(
+            owner_ids=OWNER_IDS,
+            intents=disnake.Intents.all(),
+            reload=True
+        )
+
+        for extension in extensions:
+            logger.info(extension + ' has been loaded')
+            self.load_extension(extension)
+
+    async def on_ready(self):
+        await self.change_presence(
+            status=disnake.Status.do_not_disturb,
+            activity=disnake.Game("Status")
+        )
+
+    @commands.slash_command(name='cogs', guild_ids=ADMIN_GUILDS)
+    async def _cogs(self, interaction: disnake.AppCommandInteraction):
+        pass
+
+    @_cogs.sub_command()
+    async def load(self,
+                   interaction: disnake.AppCommandInteraction,
+                   extension=commands.Param(
+                       choices=extensions
+                   )):
+        """
+        Loads selected extension
+        """
+        bot.load_extensions(f"{PATH}/cogs/{extension}")
+        embed = disnake.Embed(
+            description="Cogs have loaded",
+            color=disnake.Color.green()
+        )
+
+        await interaction.send(embed=embed)
 
 
-# WORKING WITH COGS
+if __name__ == "__main__":
+    bot = DiscordBot()
 
-@client.slash_command(guild_ids=(admin_guild,))
-async def cogs(interaction):
-	pass
+    try:
+        bot.run(config["bot"]["token"])
 
+    except disnake.LoginFailure:
+        ...
 
-@application_checks.is_owner()
-@cogs.subcommand()
-async def load(interaction, extension):
-	"""
-	Loading extension.
+    except disnake.PrivilegedIntentsRequired:
+        ...
 
-	Parameters
-	----------
-	interaction: Interaction
-	extension: str
-		Type name of extension to load.
-	"""
-	try:
-		client.load_extension(f"cogs.{extension}")
-		print(f"Cog {extension} is loaded.")
-		await interaction.send(f"Cog **{str.upper(extension)}** is loaded.")
-
-	except Exception as error:
-		print(error)
-		await interaction.send("Incorrect name or not able to load")
-
-
-@application_checks.is_owner()
-@cogs.subcommand()
-async def unload(interaction, extension):
-	"""
-	Unloading extension.
-
-	Parameters
-	----------
-	interaction: Interaction
-	extension: str
-		Type name of extension to unload.
-	"""
-	try:
-		client.unload_extension(f"cogs.{extension}")
-		print(f"Cog {str.upper(extension)} is unloaded.")
-		await interaction.send(f"Cog **{str.upper(extension)}** is unloaded.")
-
-	except Exception as error:
-		print(error)
-		await interaction.send("Incorrect name or not able to unload")
-
-
-@application_checks.is_owner()
-@cogs.subcommand()
-async def reload(interaction, extension):
-	"""
-	Reloading extension.
-
-	Parameters
-	----------
-	interaction: Interaction
-	extension: str
-		Type name of extension to reload.
-	"""
-	try:
-		client.unload_extension(f"cogs.{extension}")
-		client.load_extension(f"cogs.{extension}")
-		print(f"Cog {str.upper(extension)} is reloaded.")
-		await interaction.send(f"Cog **{str.upper(extension)}** is reloaded.")
-
-	except Exception as error:
-		print(error)
-		await interaction.send("Incorrect name or not able to reload")
-
-@application_checks.is_owner()
-@cogs.subcommand()
-async def list(interaction):
-	"""
-	Get extensions list.
-	"""
-	embed = nextcord.Embed(title="Cogs list", color=nextcord.Color.blue())
-
-	description = []
-	for filename in os.listdir("./cogs"):
-		if filename.endswith(".py"):
-			description.append(f"- {filename[:-3]}")
-	
-	embed.description = "\n".join(description)
-	await interaction.send(embed=embed)
-
-
-for filename in os.listdir("./cogs"):
-	if filename.endswith(".py"):
-		client.load_extension(f"cogs.{filename[:-3]}")
-
-if __name__ == '__main__':
-	if sys.version_info < (3, 8):
-		exit("You need Python 3.8+ to run the bot.")
-
-	try:
-		from nextcord import Intents, Client
-
-	except ImportError:
-		exit("Nextcord isn`t installed or it`s old, unsupported version.")
-
-	try:
-		client.run(config["bot"]["token"])
-
-	except nextcord.PrivilegedIntentsRequired:
-		exit("Login failure! Privileged Intents not enabled.")
-
-	except nextcord.errors.LoginFailure:
-		exit("Login failure! Token is required.")
-
-	except Exception as err:
-		print(err)
+    except Exception as e:
+        print(f"{type(e).__name__}: {e}")
