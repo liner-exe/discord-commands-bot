@@ -91,6 +91,7 @@ class DiscordBot(commands.InteractionBot):
             status=disnake.Status.do_not_disturb,
             activity=disnake.Game("Status")
         )
+        logger.info("")
 
     @commands.slash_command(name='cogs', guild_ids=ADMIN_GUILDS)
     async def _cogs(self, interaction: disnake.AppCommandInteraction):
@@ -107,8 +108,25 @@ class DiscordBot(commands.InteractionBot):
         """
         bot.load_extensions(f"{PATH}/cogs/{extension}")
         embed = disnake.Embed(
-            description="Cogs have loaded",
+            description="Extension has been loaded.",
             color=disnake.Color.green()
+        )
+
+        await interaction.send(embed=embed)
+
+    @_cogs.sub_command()
+    async def unload(self,
+                     interaction: disnake.AppCommandInteraction,
+                     extension=commands.Param(
+                         choices=extensions
+                     )):
+        """
+        Unloads selected extension
+        """
+        bot.unload_extension(f"{PATH}/cogs/{extensions}")
+        embed = disnake.Embed(
+            description="Extension has been unloaded.",
+            color=disnake.Color.red()
         )
 
         await interaction.send(embed=embed)
