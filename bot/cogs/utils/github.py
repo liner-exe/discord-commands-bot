@@ -27,6 +27,6 @@ def changelog():
     data = response.json()
 
     if not data.get("body_text"):
-        return "" # Raise there error if needed
+        return ""
 
     return data["body_text"]
