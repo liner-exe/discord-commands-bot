@@ -132,7 +132,7 @@ If your request would contain confidentional information, [please send me an ema
 
 <br>
 
-Copyright &copy; 2022-2024 [liner](https://github.com/r-liner)
+Copyright &copy; 2022-2025 [liner](https://github.com/r-liner)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
